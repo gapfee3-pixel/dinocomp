@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Program Tools Advice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F5F5F7;
+    --surface: #FFFFFF;
+    --surface-2: #FBFBFD;
+    --text: #1D1D1F;
+    --text-secondary: #6E6E73;
+    --text-muted: #86868B;
+    --accent: #0066CC;
+    --accent-hover: #0055AD;
+    --line: rgba(0,0,0,0.08);
+    --danger: #E0402A;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.03);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.10);
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "IBM Plex Sans Thai", "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  .hero{
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+    padding:96px 28px 56px;
+    text-align:center;
+    background:linear-gradient(180deg, #FFD9E8 0%, #FFC1D6 22%, #D3C9F0 50%, #C7DBF2 72%, var(--bg) 100%);
+    border-bottom:1px solid var(--line);
+  }
+
+  .hero-glow{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+
+  .anime-sun{
+    position:absolute;
+    top:-40px; right:8%;
+    width:180px; height:180px;
+    border-radius:50%;
+    background:radial-gradient(circle, #FFF3D6 0%, #FFD98E 45%, rgba(255,217,142,0) 72%);
+    animation:sunPulse 6s ease-in-out infinite;
+  }
+
+  .cloud{
+    position:absolute;
+    background:#fff;
+    border-radius:999px;
+    opacity:0.8;
+  }
+  .cloud::before, .cloud::after{
+    content:"";
+    position:absolute;
+    background:#fff;
+    border-radius:999px;
+  }
+  .cloud.c1{
+    width:140px; height:34px; top:60px; left:-180px;
+    animation:driftRight 34s linear infinite;
+  }
+  .cloud.c1::before{ width:70px; height:50px; top:-26px; left:14px; }
+  .cloud.c1::after{ width:56px; height:40px; top:-18px; left:70px; }
+
+  .cloud.c2{
+    width:100px; height:26px; top:130px; left:-140px;
+    opacity:0.65;
+    animation:driftRight 26s linear infinite;
+    animation-delay:-10s;
+  }
+  .cloud.c2::before{ width:50px; height:36px; top:-18px; left:10px; }
+  .cloud.c2::after{ width:40px; height:28px; top:-12px; left:52px; }
+
+  .cloud.c3{
+    width:120px; height:30px; top:20px; left:-160px;
+    opacity:0.55;
+    animation:driftRight 42s linear infinite;
+    animation-delay:-22s;
+  }
+  .cloud.c3::before{ width:60px; height:42px; top:-22px; left:12px; }
+  .cloud.c3::after{ width:48px; height:34px; top:-14px; left:60px; }
+
+  @keyframes driftRight{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(calc(100vw + 200px)); }
+  }
+  @keyframes sunPulse{
+    0%,100%{ opacity:0.85; transform:scale(1); }
+    50%{ opacity:1; transform:scale(1.06); }
+  }
+
+  .petal{
+    position:absolute;
+    top:-24px;
+    width:10px; height:14px;
+    background:#FF9EBB;
+    border-radius:60% 0 60% 0;
+    opacity:0;
+    animation:petalFall linear infinite;
+  }
+  .petal.p1{ left:8%; animation-duration:11s; animation-delay:0s; }
+  .petal.p2{ left:20%; animation-duration:9s; animation-delay:2s; background:#FFC2D6; }
+  .petal.p3{ left:35%; animation-duration:13s; animation-delay:1s; }
+  .petal.p4{ left:50%; animation-duration:10s; animation-delay:4s; background:#FFB3CC; }
+  .petal.p5{ left:65%; animation-duration:12s; animation-delay:2.5s; }
+  .petal.p6{ left:78%; animation-duration:9.5s; animation-delay:5s; background:#FFC2D6; }
+  .petal.p7{ left:90%; animation-duration:14s; animation-delay:0.5s; }
+
+  @keyframes petalFall{
+    0%{ transform:translate(0,0) rotate(0deg); opacity:0; }
+    8%{ opacity:0.9; }
+    50%{ transform:translate(30px, 160px) rotate(180deg); }
+    92%{ opacity:0.8; }
+    100%{ transform:translate(-10px, 320px) rotate(340deg); opacity:0; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .cloud, .petal, .anime-sun{ animation:none !important; }
+  }
+
+  .mascot-wrap{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:center;
+    margin-bottom:8px;
+  }
+  .mascot{
+    width:150px;
+    height:150px;
+    animation:mascotFloat 5s ease-in-out infinite;
+    transform-origin:center;
+  }
+  .mascot .eyes{
+    animation:mascotBlink 4.5s ease-in-out infinite;
+    transform-origin:center;
+  }
+  .mascot .ear-left{
+    animation:earSwayLeft 3.2s ease-in-out infinite;
+    transform-origin:170px 90px;
+  }
+  .mascot .ear-right{
+    animation:earSwayRight 3.2s ease-in-out infinite;
+    transform-origin:280px 90px;
+  }
+  .mascot .tail{
+    animation:tailSway 3.8s ease-in-out infinite;
+    transform-origin:60px 260px;
+  }
+  .sparkle{
+    animation:sparkleFloat 3s ease-in-out infinite;
+    transform-origin:center;
+  }
+  .sparkle.s2{ animation-delay:0.8s; }
+  .sparkle.s3{ animation-delay:1.6s; }
+
+  @keyframes mascotFloat{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-10px); }
+  }
+  @keyframes mascotBlink{
+    0%,88%,100%{ transform:scaleY(1); }
+    92%{ transform:scaleY(0.12); }
+    96%{ transform:scaleY(1); }
+  }
+  @keyframes earSwayLeft{
+    0%,100%{ transform:rotate(0deg); }
+    50%{ transform:rotate(-6deg); }
+  }
+  @keyframes earSwayRight{
+    0%,100%{ transform:rotate(0deg); }
+    50%{ transform:rotate(6deg); }
+  }
+  @keyframes tailSway{
+    0%,100%{ transform:rotate(0deg); }
+    50%{ transform:rotate(8deg); }
+  }
+  @keyframes sparkleFloat{
+    0%,100%{ opacity:0; transform:translateY(0) scale(0.6); }
+    50%{ opacity:1; transform:translateY(-14px) scale(1); }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .mascot, .mascot .eyes, .mascot .ear-left, .mascot .ear-right, .mascot .tail, .sparkle{
+      animation:none !important;
+    }
+  }
+
+  .hero-content{
+    position:relative;
+    z-index:1;
+  }
+
+  .hero h1{
+    font-size:clamp(40px, 6vw, 64px);
+    font-weight:700;
+    letter-spacing:-0.02em;
+    margin:0 0 14px;
+    line-height:1.05;
+  }
+  .hero p{
+    font-size:19px;
+    color:var(--text-secondary);
+    margin:0;
+    font-weight:400;
+    max-width:560px;
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.5;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 28px 100px;
+  }
+
+  .toolbar{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:space-between;
+    margin:40px 0 32px;
+    flex-wrap:wrap;
+    position:sticky;
+    top:0;
+    padding:16px 0;
+    background:rgba(245,245,247,0.85);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    z-index:10;
+  }
+
+  .search-box{
+    flex:1;
+    min-width:240px;
+    max-width:420px;
+    position:relative;
+  }
+  .search-box input{
+    width:100%;
+    padding:12px 16px 12px 40px;
+    border:none;
+    background:rgba(118,118,128,0.12);
+    border-radius:980px;
+    font-family:inherit;
+    font-size:15px;
+    color:var(--text);
+    outline:none;
+    transition:background 0.2s ease;
+  }
+  .search-box input:focus{ background:rgba(118,118,128,0.18); }
+  .search-box input::placeholder{ color:var(--text-muted); }
+  .search-box svg{
+    position:absolute;
+    left:14px; top:50%;
+    transform:translateY(-50%);
+    color:var(--text-muted);
+  }
+
+  .count-label{
+    font-size:14px;
+    color:var(--text-muted);
+    white-space:nowrap;
+  }
+
+  .btn{
+    font-family:inherit;
+    font-size:15px;
+    font-weight:500;
+    padding:11px 22px;
+    border-radius:980px;
+    border:none;
+    background:var(--accent);
+    color:#fff;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background 0.15s ease, transform 0.1s ease;
+  }
+  .btn:hover{ background:var(--accent-hover); }
+  .btn:active{ transform:scale(0.97); }
+  .btn.secondary{
+    background:rgba(118,118,128,0.12);
+    color:var(--text);
+  }
+  .btn.secondary:hover{ background:rgba(118,118,128,0.2); }
+
+  .toolbar-actions{ display:flex; align-items:center; gap:16px; }
+
+  /* ---- Add / edit form card ---- */
+  .form-card{
+    background:var(--surface);
+    border-radius:24px;
+    box-shadow:var(--shadow-lg);
+    padding:32px 36px;
+    margin-bottom:40px;
+    display:none;
+  }
+  .form-card.open{ display:block; }
+  .form-card h2{
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0 0 24px;
+  }
+  .form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px 20px;
+  }
+  .form-grid .full{ grid-column:1 / -1; }
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text-secondary);
+    margin-bottom:8px;
+  }
+  .field input, .field textarea{
+    width:100%;
+    padding:11px 14px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:var(--surface-2);
+    font-family:inherit;
+    font-size:15px;
+    color:var(--text);
+    outline:none;
+    transition:border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .field input:focus, .field textarea:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 4px rgba(0,102,204,0.12);
+  }
+  .field textarea{ resize:vertical; min-height:64px; }
+  .error-text{
+    color:var(--danger);
+    font-size:13px;
+    margin-top:6px;
+    display:none;
+  }
+  .error-text.show{ display:block; }
+
+  .form-actions{
+    display:flex;
+    gap:12px;
+    margin-top:26px;
+  }
+
+  /* ---- Grid of cards ---- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(270px, 1fr));
+    gap:24px;
+  }
+
+  .card{
+    background:var(--surface);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:var(--shadow-sm);
+    transition:transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-md);
+  }
+
+  .card-media{
+    width:100%;
+    height:160px;
+    overflow:hidden;
+    background:linear-gradient(135deg, #F0F0F3, #E4E4E9);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card-media img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .card-media .placeholder{
+    font-size:40px;
+    font-weight:700;
+    color:#C7C7CC;
+  }
+
+  .card-body{ padding:20px 20px 0; }
+
+  .card-name{
+    font-size:19px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0 0 6px;
+    line-height:1.3;
+    word-break:break-word;
+  }
+
+  .card-note{
+    font-size:14px;
+    color:var(--text-secondary);
+    margin:0 0 14px;
+    line-height:1.5;
+  }
+
+  .date-pill{
+    display:inline-block;
+    font-size:12.5px;
+    font-weight:500;
+    color:var(--text-secondary);
+    background:rgba(118,118,128,0.1);
+    border-radius:980px;
+    padding:4px 12px;
+    margin-bottom:16px;
+  }
+
+  .card-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 20px;
+    border-top:1px solid var(--line);
+    margin-top:4px;
+  }
+
+  .open-link{
+    font-size:14px;
+    font-weight:600;
+    color:var(--accent);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+  }
+  .open-link:hover{ color:var(--accent-hover); }
+
+  .card-actions{ display:flex; gap:2px; }
+  .icon-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:6px 8px;
+    color:var(--text-muted);
+    font-family:inherit;
+    font-size:13px;
+    border-radius:8px;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .icon-btn:hover{ background:rgba(118,118,128,0.12); color:var(--text); }
+  .icon-btn.del:hover{ color:var(--danger); }
+
+  /* ---- Empty state ---- */
+  .empty{
+    text-align:center;
+    padding:90px 20px;
+    color:var(--text-secondary);
+  }
+  .empty h3{
+    font-size:24px;
+    font-weight:700;
+    color:var(--text);
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+  }
+  .empty p{
+    font-size:15px;
+    margin:0 0 24px;
+  }
+
+  .status-line{
+    font-size:13px;
+    color:var(--danger);
+    margin:0 0 18px;
+    display:none;
+  }
+  .status-line.show{ display:block; }
+  .status-line.success{ color:#1E7E34; }
+
+  .storage-note{
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin:0 0 20px;
+    text-align:center;
+  }
+
+  @media (max-width:520px){
+    .hero{ padding:64px 20px 40px; }
+    .wrap{ padding:0 18px 70px; }
+    .form-card{ padding:24px 22px; }
+    .form-grid{ grid-template-columns:1fr; }
+    .toolbar{ position:static; }
+  }
+
+  /* ---- Login screen ---- */
+  .login-screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:linear-gradient(180deg, #FFD9E8 0%, #FFC1D6 22%, #D3C9F0 50%, #C7DBF2 72%, var(--bg) 100%);
+  }
+  .login-card{
+    width:100%;
+    max-width:380px;
+    background:var(--surface);
+    border-radius:24px;
+    box-shadow:var(--shadow-lg);
+    padding:40px 32px;
+  }
+  .login-card h1{
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0 0 4px;
+    text-align:center;
+  }
+  .login-sub{
+    font-size:14px;
+    color:var(--text-secondary);
+    text-align:center;
+    margin:0 0 28px;
+  }
+  .login-card .field{ margin-bottom:18px; }
+  .login-error{
+    color:var(--danger);
+    font-size:13px;
+    margin:-6px 0 16px;
+    display:none;
+    line-height:1.4;
+  }
+  .login-error.show{ display:block; }
+  .login-btn{
+    width:100%;
+    padding:13px 22px;
+    font-size:16px;
+    margin-top:4px;
+  }
+  .login-btn[disabled]{ opacity:0.7; cursor:default; }
+
+  /* ---- Auth bar (top of app) ---- */
+  .auth-bar{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:14px;
+    padding:12px 28px;
+    max-width:1120px;
+    margin:0 auto;
+  }
+  .auth-user{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:14px;
+    color:var(--text-secondary);
+  }
+  .auth-user .auth-name{ font-weight:600; color:var(--text); }
+  .role-badge{
+    font-size:11.5px;
+    font-weight:600;
+    padding:3px 10px;
+    border-radius:980px;
+    background:rgba(118,118,128,0.14);
+    color:var(--text-secondary);
+  }
+  .role-badge.admin{
+    background:rgba(0,102,204,0.12);
+    color:var(--accent);
+  }
+  .logout-btn{
+    padding:8px 18px;
+    font-size:13.5px;
+  }
+  @media (max-width:520px){
+    .auth-bar{ padding:12px 18px; flex-wrap:wrap; justify-content:center; }
+  }
+
+  /* ---- Email whitelist panel ---- */
+  .email-list{
+    margin-top:24px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .email-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    padding:14px 16px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  .email-row .email-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    min-width:0;
+  }
+  .email-row .email-text{
+    font-size:14.5px;
+    font-weight:500;
+    word-break:break-all;
+  }
+  .status-pill{
+    font-size:11.5px;
+    font-weight:600;
+    padding:3px 11px;
+    border-radius:980px;
+    white-space:nowrap;
+  }
+  .status-pill.allowed{
+    background:rgba(52,168,83,0.14);
+    color:#1E7E34;
+  }
+  .status-pill.blocked{
+    background:rgba(224,64,42,0.12);
+    color:var(--danger);
+  }
+  .email-row .email-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .email-empty{
+    text-align:center;
+    color:var(--text-muted);
+    font-size:14px;
+    padding:24px 0;
+  }
+</style>
+</head>
+<body>
+
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <h1>เข้าสู่ระบบ</h1>
+      <p class="login-sub">All Program Tools Advice</p>
+      <div class="field full">
+        <label>Email</label>
+        <input type="email" id="loginIdentifier" autocomplete="username" placeholder="you@example.com">
+      </div>
+      <div class="field full">
+        <label>Password</label>
+        <input type="password" id="loginPassword" autocomplete="current-password">
+      </div>
+      <p class="login-error" id="loginError"></p>
+      <button class="btn login-btn" id="loginBtn">เข้าสู่ระบบ</button>
+    </div>
+  </div>
+
+  <div id="appView" style="display:none;">
+
+  <div class="auth-bar">
+    <div class="auth-user">
+      <span class="auth-name" id="authUsername"></span>
+      <span class="role-badge" id="authRole"></span>
+    </div>
+    <button class="btn secondary" id="manageEmailsBtn" style="display:none;">จัดการ Email</button>
+    <button class="btn secondary logout-btn" id="logoutBtn">ออกจากระบบ</button>
+  </div>
+
+  <div class="form-card" id="emailPanel">
+    <h2>Email Whitelist — จัดการผู้ที่เข้าใช้งานได้</h2>
+    <div class="form-grid">
+      <div class="field full">
+        <label>เพิ่ม Email ใหม่เข้า Whitelist</label>
+        <input type="email" id="newAllowedEmail" placeholder="name@example.com">
+        <div class="error-text" id="errAllowedEmail">กรุณาใส่ Email ที่ถูกต้อง</div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" id="addAllowedEmailBtn">เพิ่ม Email</button>
+      <button class="btn secondary" id="closeEmailPanelBtn">ปิด</button>
+    </div>
+    <p class="status-line" id="emailStatusLine"></p>
+    <div class="email-list" id="emailList"></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-glow" aria-hidden="true">
+      <div class="anime-sun"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+      <span class="petal p1"></span>
+      <span class="petal p2"></span>
+      <span class="petal p3"></span>
+      <span class="petal p4"></span>
+      <span class="petal p5"></span>
+      <span class="petal p6"></span>
+      <span class="petal p7"></span>
+    </div>
+    <div class="mascot-wrap">
+      <svg class="mascot" viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="มาสคอตจิ้งจอกการ์ตูนกำลังโบกหาง">
+        <path class="tail" d="M60,260 C10,250 5,190 40,170 C70,155 95,190 80,220 C72,238 65,250 60,260 Z" fill="#F5A65B"/>
+        <ellipse cx="55" cy="205" rx="14" ry="20" fill="#FFF3E0"/>
+        <path class="ear-left" d="M100,95 L128,20 L152,100 Z" fill="#F5A65B"/>
+        <path class="ear-left" d="M112,88 L129,42 L145,90 Z" fill="#FFD9A8"/>
+        <path class="ear-right" d="M240,95 L212,20 L188,100 Z" fill="#F5A65B"/>
+        <path class="ear-right" d="M228,88 L211,42 L195,90 Z" fill="#FFD9A8"/>
+        <ellipse cx="170" cy="225" rx="92" ry="68" fill="#F5A65B"/>
+        <ellipse cx="170" cy="238" rx="56" ry="44" fill="#FFF3E0"/>
+        <circle cx="170" cy="140" r="76" fill="#F5A65B"/>
+        <ellipse cx="170" cy="158" rx="50" ry="40" fill="#FFF3E0"/>
+        <circle cx="127" cy="168" r="11" fill="#FFC2A8" opacity="0.65"/>
+        <circle cx="213" cy="168" r="11" fill="#FFC2A8" opacity="0.65"/>
+        <g class="eyes">
+          <ellipse cx="148" cy="142" rx="8" ry="11" fill="#2B2216"/>
+          <ellipse cx="192" cy="142" rx="8" ry="11" fill="#2B2216"/>
+          <circle cx="151" cy="138" r="2.4" fill="#fff"/>
+          <circle cx="195" cy="138" r="2.4" fill="#fff"/>
+        </g>
+        <path d="M164,160 Q170,166 176,160" stroke="#8A5A34" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="170" cy="152" r="3.5" fill="#8A5A34"/>
+        <g class="sparkle s1" fill="#FBBC05">
+          <path d="M60,80 L64,90 L74,94 L64,98 L60,108 L56,98 L46,94 L56,90 Z"/>
+        </g>
+        <g class="sparkle s2" fill="#4285F4">
+          <path d="M275,60 L278,68 L286,71 L278,74 L275,82 L272,74 L264,71 L272,68 Z"/>
+        </g>
+        <g class="sparkle s3" fill="#EA4335">
+          <path d="M290,150 L293,157 L300,160 L293,163 L290,170 L287,163 L280,160 L287,157 Z"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <h1>All Program Tools Advice</h1>
+      <p>โปรแกรมสำหรับ Service ลูกค้า Dino Com Advice วารินชำราบ</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="toolbar">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" placeholder="ค้นหาชื่อโปรแกรม">
+      </div>
+      <div class="toolbar-actions">
+        <span class="count-label" id="countLabel">กำลังโหลด…</span>
+        <button class="btn" id="toggleFormBtn">เพิ่มรายการ</button>
+      </div>
+    </div>
+
+    <p class="storage-note">ข้อมูลถูกบันทึกบนเซิร์ฟเวอร์กลาง เปิดจากเครื่องหรืออุปกรณ์ไหนก็เห็นข้อมูลชุดเดียวกัน</p>
+
+    <div class="form-card" id="formCard">
+      <h2 id="formTitle">เพิ่มรายการใหม่</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label>ชื่อโปรแกรม</label>
+          <input type="text" id="fName" placeholder="เช่น Visual Studio Code">
+          <div class="error-text" id="errName">กรุณาใส่ชื่อโปรแกรม</div>
+        </div>
+        <div class="field">
+          <label>วันที่ / เวลา</label>
+          <input type="date" id="fTime">
+          <div class="error-text" id="errTime">กรุณาเลือกวันที่</div>
+        </div>
+        <div class="field full">
+          <label>ลิงก์</label>
+          <input type="text" id="fUrl" placeholder="https://...">
+          <div class="error-text" id="errUrl">กรุณาใส่ลิงก์ที่ถูกต้อง (ขึ้นต้นด้วย http:// หรือ https://)</div>
+        </div>
+        <div class="field full">
+          <label>ลิงก์รูปภาพ (ไม่บังคับ)</label>
+          <input type="text" id="fImage" placeholder="https://...jpg">
+        </div>
+        <div class="field full">
+          <label>บันทึกเพิ่มเติม (ไม่บังคับ)</label>
+          <textarea id="fNote" placeholder="รายละเอียดสั้นๆ เกี่ยวกับโปรแกรมนี้"></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn" id="saveBtn">บันทึก</button>
+        <button class="btn secondary" id="cancelBtn">ยกเลิก</button>
+      </div>
+    </div>
+
+    <p class="status-line" id="statusLine"></p>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="empty" id="emptyState" style="display:none;">
+      <h3>ยังไม่มีรายการ</h3>
+      <p>เริ่มเก็บลิงก์โปรแกรมแรกของคุณได้เลย</p>
+      <button class="btn" id="emptyAddBtn">เพิ่มรายการ</button>
+    </div>
+
+  </div>
+
+  </div><!-- /#appView -->
+
+<script>
+  let items = [];
+  let editingId = null;
+  let currentUser = null;
+
+  const grid = document.getElementById('grid');
+  const emptyState = document.getElementById('emptyState');
+  const formCard = document.getElementById('formCard');
+  const formTitle = document.getElementById('formTitle');
+  const countLabel = document.getElementById('countLabel');
+  const statusLine = document.getElementById('statusLine');
+
+  const fName = document.getElementById('fName');
+  const fTime = document.getElementById('fTime');
+  const fUrl = document.getElementById('fUrl');
+  const fImage = document.getElementById('fImage');
+  const fNote = document.getElementById('fNote');
+  const saveBtn = document.getElementById('saveBtn');
+
+  function showStatus(msg){
+    statusLine.textContent = msg;
+    statusLine.classList.add('show');
+  }
+  function hideStatus(){
+    statusLine.classList.remove('show');
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function formatDate(iso){
+    if(!iso) return '';
+    const d = new Date(iso + 'T00:00:00');
+    if(isNaN(d)) return iso;
+    const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + (d.getFullYear() + 543);
+  }
+
+  function isValidUrl(str){
+    try{
+      const u = new URL(str);
+      return u.protocol === 'http:' || u.protocol === 'https:';
+    }catch(e){ return false; }
+  }
+
+  const API_BASE = '/api/links';
+  const AUTH_BASE = '/api/auth';
+
+  function getToken(){ return localStorage.getItem('authToken'); }
+  function setToken(t){ localStorage.setItem('authToken', t); }
+  function clearToken(){ localStorage.removeItem('authToken'); }
+  function authHeaders(){
+    const t = getToken();
+    return t ? { 'Authorization': 'Bearer ' + t } : {};
+  }
+  function isAdmin(){ return !!currentUser && currentUser.role === 'admin'; }
+
+  function showLoginScreen(){
+    document.getElementById('appView').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+  }
+
+  function showAppView(){
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appView').style.display = 'block';
+    document.getElementById('authUsername').textContent = currentUser.username;
+    const roleEl = document.getElementById('authRole');
+    roleEl.textContent = isAdmin() ? 'ผู้ดูแลระบบ' : 'ผู้ใช้งาน';
+    roleEl.className = 'role-badge' + (isAdmin() ? ' admin' : '');
+    document.getElementById('toggleFormBtn').style.display = isAdmin() ? 'inline-block' : 'none';
+    document.getElementById('manageEmailsBtn').style.display = isAdmin() ? 'inline-block' : 'none';
+    loadItems();
+  }
+
+  // ตรวจสอบ token ที่เก็บไว้ตอนโหลดหน้าเว็บ ว่ายังใช้ Login อยู่ได้ไหม
+  async function checkAuth(){
+    const token = getToken();
+    if(!token){ showLoginScreen(); return; }
+    try{
+      const res = await fetch(AUTH_BASE + '/me', { headers: authHeaders() });
+      if(!res.ok) throw new Error('unauthorized');
+      const data = await res.json();
+      currentUser = data.user;
+      showAppView();
+    }catch(e){
+      clearToken();
+      currentUser = null;
+      showLoginScreen();
+    }
+  }
+
+  async function doLogin(){
+    const identifier = document.getElementById('loginIdentifier').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const loginError = document.getElementById('loginError');
+    const loginBtn = document.getElementById('loginBtn');
+
+    loginError.textContent = '';
+    loginError.classList.remove('show');
+
+    if(!identifier || !password){
+      loginError.textContent = 'กรุณากรอก Email และ Password';
+      loginError.classList.add('show');
+      return;
+    }
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'กำลังเข้าสู่ระบบ…';
+
+    try{
+      const res = await fetch(AUTH_BASE + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, password })
+      });
+      const data = await res.json();
+      if(!res.ok){
+        loginError.textContent = data.error || 'เข้าสู่ระบบไม่สำเร็จ';
+        loginError.classList.add('show');
+        return;
+      }
+      setToken(data.token);
+      currentUser = data.user;
+      document.getElementById('loginPassword').value = '';
+      showAppView();
+    }catch(e){
+      loginError.textContent = 'เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง';
+      loginError.classList.add('show');
+    }finally{
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'เข้าสู่ระบบ';
+    }
+  }
+
+  async function doLogout(){
+    try{ await fetch(AUTH_BASE + '/logout', { method:'POST', headers: authHeaders() }); }
+    catch(e){ /* ไม่เป็นไร แม้ request ล้มเหลว ก็ยังเคลียร์ session ฝั่ง client ต่อ */ }
+    clearToken();
+    currentUser = null;
+    items = [];
+    showLoginScreen();
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', doLogin);
+  document.getElementById('loginIdentifier').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+  document.getElementById('loginPassword').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+  document.getElementById('logoutBtn').addEventListener('click', doLogout);
+
+  // ---- Email Whitelist (เฉพาะ admin) ----
+  const ADMIN_EMAILS_BASE = '/api/admin/allowed-emails';
+  let allowedEmails = [];
+
+  const emailPanel = document.getElementById('emailPanel');
+  const emailList = document.getElementById('emailList');
+  const emailStatusLine = document.getElementById('emailStatusLine');
+  const newAllowedEmailInput = document.getElementById('newAllowedEmail');
+
+  function showEmailStatus(msg, type){
+    emailStatusLine.textContent = msg;
+    emailStatusLine.classList.add('show');
+    emailStatusLine.classList.toggle('success', type === 'success');
+  }
+  function showEmailError(msg){ showEmailStatus(msg, 'error'); }
+  function showEmailSuccess(msg){ showEmailStatus(msg, 'success'); }
+  function hideEmailStatus(){
+    emailStatusLine.classList.remove('show');
+    emailStatusLine.classList.remove('success');
+  }
+
+  function isValidEmail(str){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(str || '').trim());
+  }
+
+  async function openEmailPanel(){
+    if(!isAdmin()) return;
+    formCard.classList.remove('open'); // ปิดฟอร์มเพิ่มรายการโปรแกรมไว้ก่อน กันหน้าจอรก
+    emailPanel.classList.add('open');
+    emailPanel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    await loadAllowedEmails();
+  }
+  function closeEmailPanel(){
+    emailPanel.classList.remove('open');
+    newAllowedEmailInput.value = '';
+    document.getElementById('errAllowedEmail').classList.remove('show');
+    hideEmailStatus();
+  }
+
+  async function loadAllowedEmails(){
+    emailList.innerHTML = '<p class="email-empty">กำลังโหลด…</p>';
+    try{
+      const res = await fetch(ADMIN_EMAILS_BASE, { headers: authHeaders() });
+      if(res.status === 401){ await doLogout(); return; }
+      if(res.status === 403){ showEmailError('คุณไม่มีสิทธิ์เข้าถึงส่วนนี้'); return; }
+      if(!res.ok) throw new Error('load failed');
+      allowedEmails = await res.json();
+      renderAllowedEmails();
+    }catch(e){
+      emailList.innerHTML = '';
+      showEmailError('โหลดรายชื่อ Email ไม่สำเร็จ ลองใหม่อีกครั้ง');
+    }
+  }
+
+  function renderAllowedEmails(){
+    if(allowedEmails.length === 0){
+      emailList.innerHTML = '<p class="email-empty">ยังไม่มี Email ใน Whitelist</p>';
+      return;
+    }
+    emailList.innerHTML = '';
+    allowedEmails.forEach(entry => {
+      const row = document.createElement('div');
+      row.className = 'email-row';
+      const isAllowed = entry.status === 'allowed';
+      row.innerHTML = `
+        <div class="email-info">
+          <span class="email-text">${escapeHtml(entry.email)}</span>
+          <span class="status-pill ${isAllowed ? 'allowed' : 'blocked'}">${isAllowed ? '🟢 อนุญาต' : '🔴 ระงับ'}</span>
+        </div>
+        <div class="email-actions">
+          <button class="btn secondary toggle-status-btn" data-id="${entry.id}" data-next="${isAllowed ? 'blocked' : 'allowed'}">${isAllowed ? 'ระงับ' : 'เปิดใช้งาน'}</button>
+          <button class="btn secondary delete-email-btn" data-id="${entry.id}">ลบ</button>
+        </div>
+      `;
+      emailList.appendChild(row);
+    });
+
+    emailList.querySelectorAll('.toggle-status-btn').forEach(btn => {
+      btn.addEventListener('click', () => toggleEmailStatus(btn.dataset.id, btn.dataset.next));
+    });
+    emailList.querySelectorAll('.delete-email-btn').forEach(btn => {
+      btn.addEventListener('click', () => deleteAllowedEmail(btn.dataset.id));
+    });
+  }
+
+  async function addAllowedEmail(){
+    const email = newAllowedEmailInput.value.trim();
+    const errEl = document.getElementById('errAllowedEmail');
+    errEl.classList.remove('show');
+    hideEmailStatus();
+
+    if(!email || !isValidEmail(email)){
+      errEl.classList.add('show');
+      return;
+    }
+
+    const addBtn = document.getElementById('addAllowedEmailBtn');
+    addBtn.disabled = true;
+    addBtn.textContent = 'กำลังเพิ่ม…';
+
+    try{
+      const res = await fetch(ADMIN_EMAILS_BASE, {
+        method: 'POST',
+        headers: Object.assign({ 'Content-Type':'application/json' }, authHeaders()),
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      if(res.status === 401){ await doLogout(); return; }
+      if(!res.ok){
+        showEmailError(data.error || 'เพิ่ม Email ไม่สำเร็จ');
+        return;
+      }
+      newAllowedEmailInput.value = '';
+      showEmailSuccess(`เพิ่ม ${data.email} เข้า Whitelist สำเร็จ`);
+      await loadAllowedEmails();
+    }catch(e){
+      showEmailError('เพิ่ม Email ไม่สำเร็จ ลองใหม่อีกครั้ง');
+    }finally{
+      addBtn.disabled = false;
+      addBtn.textContent = 'เพิ่ม Email';
+    }
+  }
+
+  async function toggleEmailStatus(id, nextStatus){
+    try{
+      const res = await fetch(`${ADMIN_EMAILS_BASE}/${id}`, {
+        method: 'PATCH',
+        headers: Object.assign({ 'Content-Type':'application/json' }, authHeaders()),
+        body: JSON.stringify({ status: nextStatus })
+      });
+      const data = await res.json().catch(() => ({}));
+      if(res.status === 401){ await doLogout(); return; }
+      if(!res.ok){
+        showEmailError(data.error || 'อัปเดตสถานะไม่สำเร็จ');
+        return;
+      }
+      showEmailSuccess(nextStatus === 'allowed' ? `เปิดใช้งาน ${data.email} แล้ว` : `ระงับ ${data.email} แล้ว`);
+      await loadAllowedEmails();
+    }catch(e){
+      showEmailError('อัปเดตสถานะไม่สำเร็จ ลองใหม่อีกครั้ง');
+    }
+  }
+
+  async function deleteAllowedEmail(id){
+    if(!confirm('ต้องการลบ Email นี้ออกจาก Whitelist ใช่หรือไม่')) return;
+    try{
+      const res = await fetch(`${ADMIN_EMAILS_BASE}/${id}`, { method:'DELETE', headers: authHeaders() });
+      if(res.status === 401){ await doLogout(); return; }
+      if(!res.ok){
+        const data = await res.json().catch(() => ({}));
+        showEmailError(data.error || 'ลบ Email ไม่สำเร็จ');
+        return;
+      }
+      showEmailSuccess('ลบ Email ออกจาก Whitelist สำเร็จ');
+      await loadAllowedEmails();
+    }catch(e){
+      showEmailError('ลบ Email ไม่สำเร็จ ลองใหม่อีกครั้ง');
+    }
+  }
+
+  document.getElementById('manageEmailsBtn').addEventListener('click', () => {
+    if(emailPanel.classList.contains('open')){ closeEmailPanel(); }
+    else { openEmailPanel(); }
+  });
+  document.getElementById('closeEmailPanelBtn').addEventListener('click', closeEmailPanel);
+  document.getElementById('addAllowedEmailBtn').addEventListener('click', addAllowedEmail);
+  newAllowedEmailInput.addEventListener('keydown', e => { if(e.key === 'Enter') addAllowedEmail(); });
+
+  async function loadItems(){
+    countLabel.textContent = 'กำลังโหลด…';
+    try{
+      const res = await fetch(API_BASE);
+      if(!res.ok) throw new Error('load failed');
+      items = await res.json();
+      hideStatus();
+    }catch(e){
+      items = [];
+      showStatus('โหลดข้อมูลจากเซิร์ฟเวอร์ไม่สำเร็จ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองรีเฟรชอีกครั้ง');
+    }
+    render();
+  }
+
+  function render(){
+    const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+    const filtered = items
+      .filter(it => it.name.toLowerCase().includes(query))
+      .sort((a,b) => (b.time || '').localeCompare(a.time || ''));
+
+    countLabel.textContent = items.length + ' รายการ';
+
+    grid.innerHTML = '';
+    if(filtered.length === 0){
+      emptyState.style.display = 'block';
+      emptyState.querySelector('h3').textContent = items.length === 0 ? 'ยังไม่มีรายการ' : 'ไม่พบรายการที่ค้นหา';
+      emptyState.querySelector('p').textContent = items.length === 0 ? 'เริ่มเก็บลิงก์โปรแกรมแรกของคุณได้เลย' : 'ลองค้นหาด้วยคำอื่น';
+      emptyState.querySelector('#emptyAddBtn').style.display = (items.length === 0 && isAdmin()) ? 'inline-block' : 'none';
+      return;
+    }
+    emptyState.style.display = 'none';
+
+    filtered.forEach(it => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const mediaInner = it.image
+        ? `<img src="${escapeHtml(it.image)}" alt="${escapeHtml(it.name)}" onerror="this.parentElement.innerHTML='<span class=&quot;placeholder&quot;>${escapeHtml((it.name||'?').charAt(0).toUpperCase())}</span>'">`
+        : `<span class="placeholder">${escapeHtml((it.name||'?').charAt(0).toUpperCase())}</span>`;
+
+      card.innerHTML = `
+        <div class="card-media">${mediaInner}</div>
+        <div class="card-body">
+          <p class="card-name">${escapeHtml(it.name)}</p>
+          ${it.note ? `<p class="card-note">${escapeHtml(it.note)}</p>` : ''}
+          <span class="date-pill">${formatDate(it.time) || 'ไม่ระบุวันที่'}</span>
+        </div>
+        <div class="card-footer">
+          <a class="open-link" href="${escapeHtml(it.url)}" target="_blank" rel="noopener noreferrer">เปิดลิงก์ →</a>
+          ${isAdmin() ? `
+          <div class="card-actions">
+            <button class="icon-btn edit" data-id="${it.id}">แก้ไข</button>
+            <button class="icon-btn del" data-id="${it.id}">ลบ</button>
+          </div>` : ''}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    grid.querySelectorAll('.edit').forEach(btn => {
+      btn.addEventListener('click', () => openEdit(btn.dataset.id));
+    });
+    grid.querySelectorAll('.del').forEach(btn => {
+      btn.addEventListener('click', () => deleteItem(btn.dataset.id));
+    });
+  }
+
+  function openForm(){
+    emailPanel.classList.remove('open'); // ปิด panel จัดการ email ไว้ก่อน กันหน้าจอรก
+    formCard.classList.add('open');
+    formCard.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+  function closeForm(){
+    formCard.classList.remove('open');
+    editingId = null;
+    formTitle.textContent = 'เพิ่มรายการใหม่';
+    fName.value = ''; fTime.value = ''; fUrl.value = ''; fImage.value = ''; fNote.value = '';
+    clearErrors();
+  }
+
+  function clearErrors(){
+    document.getElementById('errName').classList.remove('show');
+    document.getElementById('errTime').classList.remove('show');
+    document.getElementById('errUrl').classList.remove('show');
+  }
+
+  function openEdit(id){
+    const it = items.find(x => x.id === id);
+    if(!it) return;
+    editingId = id;
+    formTitle.textContent = 'แก้ไขรายการ';
+    fName.value = it.name || '';
+    fTime.value = it.time || '';
+    fUrl.value = it.url || '';
+    fImage.value = it.image || '';
+    fNote.value = it.note || '';
+    clearErrors();
+    openForm();
+  }
+
+  async function deleteItem(id){
+    if(!confirm('ต้องการลบรายการนี้ใช่หรือไม่')) return;
+    try{
+      const res = await fetch(`${API_BASE}/${id}`, { method:'DELETE', headers: authHeaders() });
+      if(res.status === 401){ await doLogout(); return; }
+      if(res.status === 403){ showStatus('คุณไม่มีสิทธิ์ลบรายการนี้'); return; }
+      if(!res.ok) throw new Error('delete failed');
+      items = items.filter(x => x.id !== id);
+      hideStatus();
+      render();
+    }catch(e){
+      showStatus('ลบรายการไม่สำเร็จ ลองใหม่อีกครั้ง');
+    }
+  }
+
+  async function saveItem(){
+    clearErrors();
+    let hasError = false;
+    const name = fName.value.trim();
+    const time = fTime.value;
+    const url = fUrl.value.trim();
+
+    if(!name){
+      document.getElementById('errName').classList.add('show');
+      hasError = true;
+    }
+    if(!time){
+      document.getElementById('errTime').classList.add('show');
+      hasError = true;
+    }
+    if(!url || !isValidUrl(url)){
+      document.getElementById('errUrl').classList.add('show');
+      hasError = true;
+    }
+    if(hasError) return;
+
+    const payload = {
+      name, time, url,
+      image: fImage.value.trim(),
+      note: fNote.value.trim()
+    };
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'กำลังบันทึก…';
+
+    try{
+      let res, saved;
+      const headers = Object.assign({ 'Content-Type':'application/json' }, authHeaders());
+      if(editingId){
+        res = await fetch(`${API_BASE}/${editingId}`, {
+          method:'PUT',
+          headers,
+          body: JSON.stringify(payload)
+        });
+        if(res.status === 401){ await doLogout(); return; }
+        if(res.status === 403){ showStatus('คุณไม่มีสิทธิ์แก้ไขรายการนี้'); return; }
+        if(!res.ok) throw new Error('update failed');
+        saved = await res.json();
+        const idx = items.findIndex(x => x.id === editingId);
+        if(idx !== -1) items[idx] = saved;
+      } else {
+        res = await fetch(API_BASE, {
+          method:'POST',
+          headers,
+          body: JSON.stringify(payload)
+        });
+        if(res.status === 401){ await doLogout(); return; }
+        if(res.status === 403){ showStatus('คุณไม่มีสิทธิ์เพิ่มรายการนี้'); return; }
+        if(!res.ok) throw new Error('create failed');
+        saved = await res.json();
+        items.push(saved);
+      }
+      hideStatus();
+      render();
+      closeForm();
+    }catch(e){
+      showStatus('บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+    }finally{
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'บันทึก';
+    }
+  }
+
+  document.getElementById('toggleFormBtn').addEventListener('click', () => {
+    if(formCard.classList.contains('open')){ closeForm(); }
+    else { editingId = null; formTitle.textContent = 'เพิ่มรายการใหม่'; openForm(); }
+  });
+  document.getElementById('emptyAddBtn').addEventListener('click', () => {
+    editingId = null; formTitle.textContent = 'เพิ่มรายการใหม่'; openForm();
+  });
+  document.getElementById('cancelBtn').addEventListener('click', closeForm);
+  saveBtn.addEventListener('click', saveItem);
+  document.getElementById('searchInput').addEventListener('input', render);
+
+  checkAuth();
+</script>
+</body>
+</html>
