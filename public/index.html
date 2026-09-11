@@ -137,155 +137,48 @@
     .cloud, .petal, .anime-sun{ animation:none !important; }
   }
 
-  /* --- DinoCom auto runner --- */
+  /* --- DinoCom seaside vaporwave auto drive --- */
   .runner-scene{
-    position:relative;
-    z-index:2;
-    height:190px;
-    max-width:1000px;
-    margin:0 auto 4px;
-    overflow:hidden;
-    border-radius:28px;
-    pointer-events:none;
+    position:relative; z-index:2; height:190px; max-width:1000px; margin:0 auto 4px;
+    overflow:hidden; border-radius:28px; pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,181,213,.08),rgba(115,207,224,.18));
   }
-  .runner-ground{
-    position:absolute;
-    left:0; right:0; bottom:26px;
-    height:3px;
-    background:rgba(55,70,80,.42);
-    box-shadow:0 4px 0 rgba(255,255,255,.35);
-  }
-  .runner-dust{
-    position:absolute;
-    left:calc(50% - 100px); bottom:31px;
-    width:90px; height:25px;
-    opacity:.65;
-  }
-  .runner-dust i{
-    position:absolute; bottom:0;
-    width:8px; height:8px; border-radius:50%;
-    background:rgba(255,255,255,.9);
-    animation:dustPuff 900ms ease-out infinite;
-  }
-  .runner-dust i:nth-child(1){left:8px;animation-delay:0ms}.runner-dust i:nth-child(2){left:30px;animation-delay:180ms}.runner-dust i:nth-child(3){left:52px;animation-delay:360ms}.runner-dust i:nth-child(4){left:70px;animation-delay:540ms}
+  .sea-sun{position:absolute;right:7%;top:10px;width:82px;height:82px;border-radius:50%;background:radial-gradient(circle,rgba(255,245,195,.95),rgba(255,190,122,.72) 55%,rgba(255,180,150,0) 72%);filter:blur(.2px)}
+  .sea-cloud{position:absolute;width:115px;height:27px;border-radius:50px;background:rgba(255,255,255,.76);filter:blur(.2px);opacity:.85}
+  .sea-cloud:before,.sea-cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}
+  .sea-cloud:before{width:42px;height:42px;left:18px;top:-17px}.sea-cloud:after{width:55px;height:50px;right:16px;top:-23px}
+  .sea-cloud.c1{left:7%;top:28px;transform:scale(.8)}.sea-cloud.c2{left:44%;top:13px;transform:scale(.62)}
+  .sea-mountain{position:absolute;bottom:54px;width:260px;height:76px;background:linear-gradient(135deg,transparent 0 28%,rgba(104,107,177,.26) 29% 48%,transparent 49%),linear-gradient(45deg,transparent 0 38%,rgba(95,115,183,.25) 39% 62%,transparent 63%);opacity:.7}
+  .sea-mountain.m1{left:-25px}.sea-mountain.m2{right:-40px;transform:scale(.8)}
+  .sea-water{position:absolute;left:0;right:0;bottom:45px;height:52px;background:linear-gradient(180deg,rgba(51,177,197,.38),rgba(68,145,199,.2));}
+  .sea-wave{position:absolute;bottom:63px;width:150px;height:12px;border-top:3px solid rgba(255,255,255,.62);border-radius:50%;animation:waveMove 2.6s ease-in-out infinite alternate}
+  .sea-wave.w1{left:5%}.sea-wave.w2{left:70%;animation-delay:-1s}.sea-wave.w3{left:35%;bottom:55px;transform:scale(.7);animation-delay:-1.8s}
+  @keyframes waveMove{to{transform:translateX(18px) scaleX(1.08)}}
+  .runner-road{position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(180deg,rgba(87,83,119,.88),rgba(58,59,91,.92));border-top:2px solid rgba(255,255,255,.55)}
+  .runner-road:after{content:"";position:absolute;left:0;right:0;top:22px;height:4px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.75) 0 62px,transparent 62px 115px);opacity:.85}
+  .runner-ground{position:absolute;left:0;right:0;bottom:44px;height:3px;background:rgba(46,54,75,.5);z-index:3}
+  .runner-dust{position:absolute;left:calc(50% - 120px);bottom:49px;width:105px;height:25px;opacity:.6;z-index:5}
+  .runner-dust i{position:absolute;bottom:0;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.9);animation:dustPuff 900ms ease-out infinite}
+  .runner-dust i:nth-child(1){left:8px}.runner-dust i:nth-child(2){left:30px;animation-delay:180ms}.runner-dust i:nth-child(3){left:52px;animation-delay:360ms}.runner-dust i:nth-child(4){left:70px;animation-delay:540ms}
   @keyframes dustPuff{0%{transform:translate(0,5px) scale(.45);opacity:0}35%{opacity:.8}100%{transform:translate(-28px,-18px) scale(1.2);opacity:0}}
-  .runner-dino{
-    position:absolute;
-    left:50%; bottom:27px;
-    width:122px; height:112px;
-    transform:translateX(-50%);
-    transform-origin:50% 100%;
-    animation:dinoRunBob .34s ease-in-out infinite alternate;
-  }
-  .runner-dino svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 7px 3px rgba(68,48,35,.14))}
-  .runner-dino .leg{animation:dinoLeg .17s linear infinite alternate;transform-box:fill-box;transform-origin:center bottom}
-  .runner-dino .leg.back{animation-delay:-.17s}
-  .runner-dino .arm{animation:dinoArm .17s linear infinite alternate;transform-box:fill-box;transform-origin:center top}
-  .runner-dino .arm.back{animation-delay:-.17s}
-  .runner-dino .tail{animation:dinoTail .45s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:100% 60%}
-  @keyframes dinoRunBob{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-5px)}}
-  @keyframes dinoLeg{from{transform:rotate(14deg)}to{transform:rotate(-18deg)}}
-  @keyframes dinoArm{from{transform:rotate(-14deg)}to{transform:rotate(16deg)}}
-  @keyframes dinoTail{from{transform:rotate(-4deg)}to{transform:rotate(7deg)}}
-  .dino-label{
-    position:absolute; left:50%; top:-16px;
-    transform:translateX(-50%);
-    padding:6px 12px 7px;
-    background:rgba(255,255,255,.96);
-    color:#20242a;
-    border:2px solid rgba(40,40,40,.82);
-    border-radius:12px;
-    font-size:14px; font-weight:800; white-space:nowrap;
-    box-shadow:0 4px 12px rgba(0,0,0,.10);
-  }
-  .dino-label::after{
-    content:""; position:absolute; left:50%; bottom:-8px;
-    width:13px; height:13px; background:#fff;
-    border-right:2px solid rgba(40,40,40,.82); border-bottom:2px solid rgba(40,40,40,.82);
-    transform:translateX(-50%) rotate(45deg);
-  }
-  .runner-obstacle{
-    position:absolute; bottom:27px; left:100%;
-    width:48px; height:62px;
-    animation:obstacleRun 5.8s linear infinite;
-  }
-  .runner-obstacle.o2{animation-delay:-2.9s;transform:scale(.78)}
-  .runner-obstacle.o3{animation-delay:-4.35s;transform:scale(.62)}
-  .runner-obstacle.cactus{width:38px;height:66px}
-  .runner-obstacle.rock{width:58px;height:38px}
-  .runner-obstacle svg{width:100%;height:100%;filter:drop-shadow(0 5px 2px rgba(68,48,35,.12))}
-  @keyframes obstacleRun{0%{left:105%}100%{left:-10%}}
-  .runner-obstacle.jump-trigger{}
+  .runner-car{position:absolute;left:50%;bottom:43px;width:190px;height:92px;transform:translateX(-50%);z-index:6;animation:carBounce .42s ease-in-out infinite alternate;filter:drop-shadow(0 8px 4px rgba(25,36,60,.18))}
+  .runner-car svg{width:100%;height:100%;overflow:visible}
+  .car-wheel{animation:wheelSpin .28s linear infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes wheelSpin{to{transform:rotate(360deg)}}
+  @keyframes carBounce{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-2px)}}
+  .dino-label{position:absolute;left:50%;top:-24px;transform:translateX(-50%);padding:5px 11px 6px;background:rgba(255,255,255,.96);color:#20242a;border:2px solid rgba(40,40,40,.82);border-radius:12px;font-size:13px;font-weight:800;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.10);z-index:9}
+  .dino-label::after{content:"";position:absolute;left:50%;bottom:-8px;width:13px;height:13px;background:#fff;border-right:2px solid rgba(40,40,40,.82);border-bottom:2px solid rgba(40,40,40,.82);transform:translateX(-50%) rotate(45deg)}
+  .runner-palm{position:absolute;bottom:43px;width:24px;height:74px;z-index:4;opacity:.9}
+  .runner-palm:before{content:"";position:absolute;left:10px;bottom:0;width:5px;height:54px;border-radius:5px;background:#8d6b58;transform:rotate(4deg)}
+  .runner-palm:after{content:"🌴";position:absolute;left:-15px;top:-10px;font-size:43px;line-height:1}
+  .runner-palm.p1{left:12%}.runner-palm.p2{right:13%;transform:scale(.78)}
+  .road-scenery{position:absolute;bottom:44px;right:-15%;z-index:5;font-size:28px;animation:roadSlide 7s linear infinite}
+  .road-scenery.s2{animation-delay:-3.5s;transform:scale(.8)}
+  @keyframes roadSlide{from{right:-15%}to{right:115%}}
   @media (max-width:700px){
-    .runner-scene{height:165px;border-radius:20px}
-    .runner-dino{width:105px;height:96px}
-    .runner-ground,.runner-obstacle{bottom:22px}
-    .runner-dust{left:calc(50% - 88px);bottom:26px}
-    .dino-label{font-size:12px;padding:5px 10px 6px}
+    .runner-scene{height:165px;border-radius:20px}.runner-car{width:155px;height:75px;bottom:43px}.dino-label{font-size:11px;padding:4px 8px 5px;top:-20px}.sea-sun{width:62px;height:62px}.sea-cloud{transform:scale(.72)!important}.runner-road{height:43px}.runner-ground{bottom:41px}.runner-palm{display:none}
   }
-  @media (prefers-reduced-motion:reduce){
-    .runner-dino,.runner-dino .leg,.runner-dino .arm,.runner-dino .tail,.runner-obstacle,.runner-dust i{animation:none !important}
-  }
-  .mascot{
-    width:150px;
-    height:150px;
-    animation:mascotFloat 5s ease-in-out infinite;
-    transform-origin:center;
-  }
-  .mascot .eyes{
-    animation:mascotBlink 4.5s ease-in-out infinite;
-    transform-origin:center;
-  }
-  .mascot .ear-left{
-    animation:earSwayLeft 3.2s ease-in-out infinite;
-    transform-origin:170px 90px;
-  }
-  .mascot .ear-right{
-    animation:earSwayRight 3.2s ease-in-out infinite;
-    transform-origin:280px 90px;
-  }
-  .mascot .tail{
-    animation:tailSway 3.8s ease-in-out infinite;
-    transform-origin:60px 260px;
-  }
-  .sparkle{
-    animation:sparkleFloat 3s ease-in-out infinite;
-    transform-origin:center;
-  }
-  .sparkle.s2{ animation-delay:0.8s; }
-  .sparkle.s3{ animation-delay:1.6s; }
-
-  @keyframes mascotFloat{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-10px); }
-  }
-  @keyframes mascotBlink{
-    0%,88%,100%{ transform:scaleY(1); }
-    92%{ transform:scaleY(0.12); }
-    96%{ transform:scaleY(1); }
-  }
-  @keyframes earSwayLeft{
-    0%,100%{ transform:rotate(0deg); }
-    50%{ transform:rotate(-6deg); }
-  }
-  @keyframes earSwayRight{
-    0%,100%{ transform:rotate(0deg); }
-    50%{ transform:rotate(6deg); }
-  }
-  @keyframes tailSway{
-    0%,100%{ transform:rotate(0deg); }
-    50%{ transform:rotate(8deg); }
-  }
-  @keyframes sparkleFloat{
-    0%,100%{ opacity:0; transform:translateY(0) scale(0.6); }
-    50%{ opacity:1; transform:translateY(-14px) scale(1); }
-  }
-
-  @media (prefers-reduced-motion:reduce){
-    .mascot, .mascot .eyes, .mascot .ear-left, .mascot .ear-right, .mascot .tail, .sparkle{
-      animation:none !important;
-    }
-  }
+  @media (prefers-reduced-motion:reduce){.sea-wave,.runner-car,.car-wheel,.runner-dust i,.road-scenery{animation:none!important}}
 
   .hero-content{
     position:relative;
@@ -889,52 +782,35 @@
       <span class="petal p6"></span>
       <span class="petal p7"></span>
     </div>
-    <div class="runner-scene" aria-label="ไดโนเสาร์ DinoCom วิ่งหลบสิ่งกีดขวางอัตโนมัติ">
-      <div class="runner-ground"></div>
+    <div class="runner-scene" aria-label="รถ DinoCom ขับชมวิวทะเลอัตโนมัติ">
+      <div class="sea-sun" aria-hidden="true"></div>
+      <div class="sea-cloud c1" aria-hidden="true"></div><div class="sea-cloud c2" aria-hidden="true"></div>
+      <div class="sea-mountain m1" aria-hidden="true"></div><div class="sea-mountain m2" aria-hidden="true"></div>
+      <div class="sea-water" aria-hidden="true"></div>
+      <div class="sea-wave w1" aria-hidden="true"></div><div class="sea-wave w2" aria-hidden="true"></div><div class="sea-wave w3" aria-hidden="true"></div>
+      <div class="runner-palm p1" aria-hidden="true"></div><div class="runner-palm p2" aria-hidden="true"></div>
+      <div class="road-scenery s1" aria-hidden="true">🌴</div><div class="road-scenery s2" aria-hidden="true">🌸</div>
+      <div class="runner-road" aria-hidden="true"></div><div class="runner-ground"></div>
       <div class="runner-dust" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      <div class="runner-dino" id="runnerDino">
+      <div class="runner-car" aria-hidden="true">
         <div class="dino-label">DinoCom ❤️</div>
-        <svg viewBox="0 0 180 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ไดโนเสาร์ T-Rex กำลังวิ่ง">
-          <!-- tail -->
-          <path class="tail" d="M72 91 C48 86 27 92 9 111 C31 112 52 107 75 101 Z" fill="#F39A52" stroke="#553F34" stroke-width="4" stroke-linejoin="round"/>
-          <!-- back spikes -->
-          <path d="M72 47 L78 34 L85 48 L94 31 L100 49 L111 35 L115 56" fill="#E57E45" stroke="#553F34" stroke-width="3" stroke-linejoin="round"/>
-          <!-- body -->
-          <path d="M61 52 C66 39 86 35 108 43 C122 48 130 60 128 78 C126 94 113 104 94 105 L76 104 C60 99 53 82 55 67 Z" fill="#F6A45B" stroke="#553F34" stroke-width="4"/>
-          <!-- belly -->
-          <path d="M91 62 C105 67 112 80 107 96 C103 103 94 106 84 102 C77 96 75 84 78 73 C81 66 85 63 91 62Z" fill="#FFE0AE"/>
-          <!-- rear leg -->
-          <path class="leg back" d="M72 91 C64 104 57 116 47 126 L58 128 L71 119 L82 102" fill="#E8894B" stroke="#553F34" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M47 126 L38 129 M47 126 L43 132 M57 127 L51 133" stroke="#553F34" stroke-width="3" stroke-linecap="round"/>
-          <!-- front leg -->
-          <path class="leg" d="M101 94 C105 106 110 116 119 123 L130 122 L125 115 L119 112 L116 94" fill="#F39A52" stroke="#553F34" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M119 123 L130 126 M119 123 L125 129 M125 122 L135 124" stroke="#553F34" stroke-width="3" stroke-linecap="round"/>
-          <!-- neck -->
-          <path d="M104 62 C102 49 105 38 114 31 L135 39 L132 66 Z" fill="#F6A45B" stroke="#553F34" stroke-width="4"/>
-          <!-- head -->
-          <path d="M112 18 C126 7 151 10 163 22 C170 29 170 40 165 49 C160 57 149 61 137 57 L128 52 L114 52 C107 49 103 42 105 34 C106 27 108 22 112 18 Z" fill="#F7A75E" stroke="#553F34" stroke-width="4"/>
-          <!-- snout / jaw -->
-          <path d="M139 43 C150 43 160 42 169 47 C163 57 150 61 137 56 L126 51 Z" fill="#F6A45B" stroke="#553F34" stroke-width="3"/>
-          <path d="M142 48 L147 53 L152 48 L157 52 L162 47" fill="#FFF4D8" stroke="#553F34" stroke-width="2" stroke-linejoin="round"/>
-          <!-- eye -->
-          <circle cx="143" cy="30" r="6" fill="#201A18"/><circle cx="145" cy="28" r="2" fill="#fff"/>
-          <!-- cheek -->
-          <circle cx="133" cy="42" r="6" fill="#FFB6A0" opacity=".7"/>
-          <!-- little arms -->
-          <path class="arm back" d="M112 65 Q101 68 99 78 L108 82" fill="none" stroke="#E8894B" stroke-width="7" stroke-linecap="round"/>
-          <path class="arm" d="M124 65 Q132 70 130 78 L123 81" fill="none" stroke="#F39A52" stroke-width="7" stroke-linecap="round"/>
-          <!-- brow -->
-          <path d="M136 21 Q144 17 151 21" fill="none" stroke="#553F34" stroke-width="3" stroke-linecap="round"/>
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M45 78 Q53 49 86 45 L113 25 Q124 18 139 26 L158 45 L190 48 Q211 50 220 70 L218 84 L35 84 Q34 79 45 78Z" fill="#fff4e8" stroke="#4c4353" stroke-width="4"/>
+          <path d="M113 27 Q128 17 141 28 L159 47 L121 47Z" fill="#f7d4c0" stroke="#4c4353" stroke-width="4"/>
+          <path d="M48 78 H213" stroke="#f09ab7" stroke-width="5"/>
+          <path d="M157 49 H187 Q200 51 207 63 H157Z" fill="#a9dfe7" stroke="#4c4353" stroke-width="3"/>
+          <path d="M159 49 L181 49 L195 63 H160Z" fill="#c6f0f1" opacity=".75"/>
+          <circle cx="72" cy="87" r="18" fill="#393849" stroke="#262536" stroke-width="4"/><circle cx="72" cy="87" r="8" fill="#aeb3c4"/>
+          <circle cx="184" cy="87" r="18" fill="#393849" stroke="#262536" stroke-width="4"/><circle cx="184" cy="87" r="8" fill="#aeb3c4"/>
+          <g class="car-wheel"><path d="M72 72 A15 15 0 1 0 72 102 A15 15 0 1 0 72 72" fill="none" stroke="#d8dce5" stroke-width="2"/><path d="M60 87 H84 M72 75 V99" stroke="#d8dce5" stroke-width="2"/></g>
+          <g class="car-wheel"><path d="M184 72 A15 15 0 1 0 184 102 A15 15 0 1 0 184 72" fill="none" stroke="#d8dce5" stroke-width="2"/><path d="M172 87 H196 M184 75 V99" stroke="#d8dce5" stroke-width="2"/></g>
+          <path d="M94 45 L103 31 Q109 22 120 25 L128 31 L116 48Z" fill="#fff" stroke="#4c4353" stroke-width="3"/>
+          <circle cx="112" cy="29" r="7" fill="#fff" stroke="#4c4353" stroke-width="3"/><circle cx="115" cy="28" r="2.5" fill="#282633"/>
+          <path d="M104 36 Q113 41 121 36" fill="none" stroke="#f28da7" stroke-width="3" stroke-linecap="round"/>
+          <path d="M116 50 Q125 43 136 50" fill="none" stroke="#4c4353" stroke-width="3"/>
+          <path d="M42 69 L27 61 L37 54 L51 62" fill="#fff4e8" stroke="#4c4353" stroke-width="3"/>
+          <text x="151" y="77" font-size="10" font-family="Arial,sans-serif" font-weight="700" fill="#4c4353">DinoCom</text>
         </svg>
-      </div>
-      <div class="runner-obstacle cactus o1">
-        <svg viewBox="0 0 50 80" xmlns="http://www.w3.org/2000/svg"><path d="M22 76 V27 C22 20 28 20 28 27 V42 H34 V32 C34 26 40 26 40 32 V48 C40 54 34 57 28 57 V76Z" fill="#63C96B" stroke="#397B49" stroke-width="3"/><path d="M22 40 H16 V31 C16 25 10 25 10 31 V43 C10 51 15 55 22 55" fill="#63C96B" stroke="#397B49" stroke-width="3"/></svg>
-      </div>
-      <div class="runner-obstacle rock o2">
-        <svg viewBox="0 0 70 45" xmlns="http://www.w3.org/2000/svg"><path d="M4 39 Q10 18 25 16 Q33 5 45 13 Q58 11 67 35 L63 41 H7Z" fill="#9AA0AA" stroke="#59616C" stroke-width="3"/><path d="M23 17 L31 34 M44 14 L50 34" stroke="#C9CDD3" stroke-width="3" opacity=".8"/></svg>
-      </div>
-      <div class="runner-obstacle cactus o3">
-        <svg viewBox="0 0 50 80" xmlns="http://www.w3.org/2000/svg"><path d="M22 76 V27 C22 20 28 20 28 27 V42 H34 V32 C34 26 40 26 40 32 V48 C40 54 34 57 28 57 V76Z" fill="#63C96B" stroke="#397B49" stroke-width="3"/><path d="M22 40 H16 V31 C16 25 10 25 10 31 V43 C10 51 15 55 22 55" fill="#63C96B" stroke="#397B49" stroke-width="3"/></svg>
       </div>
     </div>
     <div class="hero-content">
