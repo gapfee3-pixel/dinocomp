@@ -360,6 +360,23 @@
   }
   .error-text.show{ display:block; }
 
+  .style-panel{
+    grid-column:1 / -1;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:18px;
+    background:var(--surface-2);
+  }
+  .style-panel h3{margin:0 0 14px;font-size:17px;}
+  .style-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+  .style-grid .field input,.style-grid .field select{box-sizing:border-box;}
+  .color-row{display:flex;gap:8px;align-items:center;}
+  .color-row input[type=color]{width:48px;height:42px;padding:3px;cursor:pointer;}
+  .preview-card{grid-column:1 / -1;border:1px dashed var(--line);border-radius:18px;padding:16px;background:var(--surface);}
+  .preview-card h3{margin:0 0 12px;font-size:16px;}
+  .preview-box{max-width:330px;margin:auto;}
+  .preview-box .card{box-shadow:var(--shadow-sm);}
+  .category-pill{display:inline-block;font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px;background:rgba(0,102,204,.1);color:var(--accent);margin:0 0 10px;}
   .form-actions{
     display:flex;
     gap:12px;
@@ -829,9 +846,38 @@
           <input type="text" id="fUrl" placeholder="https://...">
           <div class="error-text" id="errUrl">กรุณาใส่ลิงก์ที่ถูกต้อง (ขึ้นต้นด้วย http:// หรือ https://)</div>
         </div>
-        <div class="field full">
+        <div class="field">
+          <label>หมวดหมู่</label>
+          <input type="text" id="fCategory" placeholder="เช่น โปรแกรม, ไดรเวอร์, เครื่องมือ">
+        </div>
+        <div class="field">
           <label>ลิงก์รูปภาพ (ไม่บังคับ)</label>
           <input type="text" id="fImage" placeholder="https://...jpg">
+        </div>
+        <div class="style-panel">
+          <h3>🎨 ปรับแต่งหน้าการ์ด</h3>
+          <div class="style-grid">
+            <div class="field"><label>ฟอนต์</label><select id="fFontFamily"><option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">System / Modern</option><option value="Arial, sans-serif">Arial</option><option value="Tahoma, sans-serif">Tahoma</option><option value="Georgia, serif">Georgia</option><option value="'Trebuchet MS', sans-serif">Trebuchet MS</option><option value="'Courier New', monospace">Courier New</option></select></div>
+            <div class="field"><label>ขนาดชื่อ (px)</label><input type="number" id="fNameSize" min="10" max="60" value="19"></div>
+            <div class="field"><label>น้ำหนักชื่อ</label><select id="fNameWeight"><option value="400">ปกติ</option><option value="500">กลาง</option><option value="600" selected>หนา</option><option value="700">หนามาก</option><option value="800">หนาสุด</option></select></div>
+            <div class="field"><label>รูปแบบชื่อ</label><select id="fNameStyle"><option value="normal">ปกติ</option><option value="italic">ตัวเอียง</option></select></div>
+            <div class="field"><label>สีชื่อ</label><div class="color-row"><input type="color" id="fNameColor" value="#111111"><input type="text" id="fNameColorText" value="#111111"></div></div>
+            <div class="field"><label>ขนาดรายละเอียด (px)</label><input type="number" id="fNoteSize" min="10" max="40" value="14"></div>
+            <div class="field"><label>น้ำหนักรายละเอียด</label><select id="fNoteWeight"><option value="400" selected>ปกติ</option><option value="500">กลาง</option><option value="600">หนา</option><option value="700">หนามาก</option></select></div>
+            <div class="field"><label>รูปแบบรายละเอียด</label><select id="fNoteStyle"><option value="normal">ปกติ</option><option value="italic">ตัวเอียง</option></select></div>
+            <div class="field"><label>สีรายละเอียด</label><div class="color-row"><input type="color" id="fNoteColor" value="#6e6e73"><input type="text" id="fNoteColorText" value="#6e6e73"></div></div>
+            <div class="field"><label>สีพื้นการ์ด</label><div class="color-row"><input type="color" id="fCardBgColor" value="#ffffff"><input type="text" id="fCardBgColorText" value="#ffffff"></div></div>
+            <div class="field"><label>รูปภาพ</label><select id="fImageShape"><option value="landscape" selected>แนวนอน</option><option value="square">สี่เหลี่ยมจัตุรัส</option><option value="portrait">แนวตั้ง</option></select></div>
+            <div class="field"><label>การพอดีรูป</label><select id="fImageFit"><option value="cover" selected>เต็มกรอบ (Cover)</option><option value="contain">เห็นภาพครบ (Contain)</option></select></div>
+            <div class="field"><label>ความสูงรูป (px)</label><input type="number" id="fImageHeight" min="80" max="500" value="160"></div>
+            <div class="field"><label>มุมโค้งรูป (px)</label><input type="number" id="fImageRadius" min="0" max="40" value="0"></div>
+            <div class="field"><label>กรอบรูป</label><select id="fImageBorder"><option value="false" selected>ไม่มีกรอบ</option><option value="true">มีกรอบ</option></select></div>
+            <div class="field"><label>จัดตำแหน่งชื่อ</label><select id="fNameAlign"><option value="left" selected>ซ้าย</option><option value="center">กลาง</option><option value="right">ขวา</option></select></div>
+          </div>
+        </div>
+        <div class="preview-card">
+          <h3>👁️ ตัวอย่างก่อนบันทึก</h3>
+          <div class="preview-box" id="stylePreview"></div>
         </div>
         <div class="field full">
           <label>บันทึกเพิ่มเติม (ไม่บังคับ)</label>
@@ -875,6 +921,27 @@
   const fUrl = document.getElementById('fUrl');
   const fImage = document.getElementById('fImage');
   const fNote = document.getElementById('fNote');
+  const fCategory = document.getElementById('fCategory');
+  const fFontFamily = document.getElementById('fFontFamily');
+  const fNameSize = document.getElementById('fNameSize');
+  const fNameWeight = document.getElementById('fNameWeight');
+  const fNameStyle = document.getElementById('fNameStyle');
+  const fNameColor = document.getElementById('fNameColor');
+  const fNameColorText = document.getElementById('fNameColorText');
+  const fNoteSize = document.getElementById('fNoteSize');
+  const fNoteWeight = document.getElementById('fNoteWeight');
+  const fNoteStyle = document.getElementById('fNoteStyle');
+  const fNoteColor = document.getElementById('fNoteColor');
+  const fNoteColorText = document.getElementById('fNoteColorText');
+  const fCardBgColor = document.getElementById('fCardBgColor');
+  const fCardBgColorText = document.getElementById('fCardBgColorText');
+  const fImageShape = document.getElementById('fImageShape');
+  const fImageFit = document.getElementById('fImageFit');
+  const fImageHeight = document.getElementById('fImageHeight');
+  const fImageRadius = document.getElementById('fImageRadius');
+  const fImageBorder = document.getElementById('fImageBorder');
+  const fNameAlign = document.getElementById('fNameAlign');
+  const stylePreview = document.getElementById('stylePreview');
   const saveBtn = document.getElementById('saveBtn');
 
   function showStatus(msg){
@@ -1278,15 +1345,24 @@
     filtered.forEach(it => {
       const card = document.createElement('div');
       card.className = 'card';
+      const st = it.style || {};
+      const shape = st.imageShape || 'landscape';
+      const height = Number(st.imageHeight || (shape === 'square' ? 270 : shape === 'portrait' ? 340 : 160));
+      const mediaStyle = `height:${height}px;${st.imageRadius ? `border-radius:${Number(st.imageRadius)}px;` : ''}`;
+      const imgStyle = `object-fit:${st.imageFit || 'cover'};${st.imageBorder ? 'border:1px solid var(--line);box-sizing:border-box;' : ''}`;
       const mediaInner = it.image
-        ? `<img src="${escapeHtml(it.image)}" alt="${escapeHtml(it.name)}" onerror="this.parentElement.innerHTML='<span class=&quot;placeholder&quot;>${escapeHtml((it.name||'?').charAt(0).toUpperCase())}</span>'">`
+        ? `<img style="${imgStyle}" src="${escapeHtml(it.image)}" alt="${escapeHtml(it.name)}" onerror="this.parentElement.innerHTML='<span class=&quot;placeholder&quot;>${escapeHtml((it.name||'?').charAt(0).toUpperCase())}</span>'">`
         : `<span class="placeholder">${escapeHtml((it.name||'?').charAt(0).toUpperCase())}</span>`;
+      const font = st.fontFamily || "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+      card.style.fontFamily = font;
+      card.style.background = st.cardBgColor || '#ffffff';
 
       card.innerHTML = `
-        <div class="card-media">${mediaInner}</div>
+        <div class="card-media" style="${mediaStyle}">${mediaInner}</div>
         <div class="card-body">
-          <p class="card-name">${escapeHtml(it.name)}</p>
-          ${it.note ? `<p class="card-note">${escapeHtml(it.note)}</p>` : ''}
+          ${it.category ? `<span class="category-pill">${escapeHtml(it.category)}</span>` : ''}
+          <p class="card-name" style="font-size:${Number(st.nameFontSize || 19)}px;font-weight:${escapeHtml(st.nameFontWeight || '600')};font-style:${escapeHtml(st.nameFontStyle || 'normal')};color:${escapeHtml(st.nameColor || '#111111')};text-align:${escapeHtml(st.nameAlign || 'left')}">${escapeHtml(it.name)}</p>
+          ${it.note ? `<p class="card-note" style="font-size:${Number(st.noteFontSize || 14)}px;font-weight:${escapeHtml(st.noteFontWeight || '400')};font-style:${escapeHtml(st.noteFontStyle || 'normal')};color:${escapeHtml(st.noteColor || '#6e6e73')}">${escapeHtml(it.note)}</p>` : ''}
           <span class="date-pill">${formatDate(it.time) || 'ไม่ระบุวันที่'}</span>
         </div>
         <div class="card-footer">
@@ -1318,7 +1394,10 @@
     formCard.classList.remove('open');
     editingId = null;
     formTitle.textContent = 'เพิ่มรายการใหม่';
-    fName.value = ''; fTime.value = ''; fUrl.value = ''; fImage.value = ''; fNote.value = '';
+    fName.value = ''; fTime.value = ''; fUrl.value = ''; fImage.value = ''; fNote.value = ''; fCategory.value = 'ทั่วไป';
+    fFontFamily.value = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"; fNameSize.value = 19; fNameWeight.value = '600'; fNameStyle.value = 'normal'; fNameColor.value = '#111111'; fNameColorText.value = '#111111';
+    fNoteSize.value = 14; fNoteWeight.value = '400'; fNoteStyle.value = 'normal'; fNoteColor.value = '#6e6e73'; fNoteColorText.value = '#6e6e73'; fCardBgColor.value = '#ffffff'; fCardBgColorText.value = '#ffffff';
+    fImageShape.value = 'landscape'; fImageFit.value = 'cover'; fImageHeight.value = 160; fImageRadius.value = 0; fImageBorder.value = 'false'; fNameAlign.value = 'left'; updateStylePreview();
     clearErrors();
   }
 
@@ -1338,6 +1417,16 @@
     fUrl.value = it.url || '';
     fImage.value = it.image || '';
     fNote.value = it.note || '';
+    fCategory.value = it.category || 'ทั่วไป';
+    const st = it.style || {};
+    fFontFamily.value = st.fontFamily || 'system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif';
+    fNameSize.value = st.nameFontSize || 19; fNameWeight.value = st.nameFontWeight || '600'; fNameStyle.value = st.nameFontStyle || 'normal';
+    fNameColor.value = st.nameColor || '#111111'; fNameColorText.value = st.nameColor || '#111111';
+    fNoteSize.value = st.noteFontSize || 14; fNoteWeight.value = st.noteFontWeight || '400'; fNoteStyle.value = st.noteFontStyle || 'normal';
+    fNoteColor.value = st.noteColor || '#6e6e73'; fNoteColorText.value = st.noteColor || '#6e6e73';
+    fCardBgColor.value = st.cardBgColor || '#ffffff'; fCardBgColorText.value = st.cardBgColor || '#ffffff';
+    fImageShape.value = st.imageShape || 'landscape'; fImageFit.value = st.imageFit || 'cover'; fImageHeight.value = st.imageHeight || 160; fImageRadius.value = st.imageRadius || 0; fImageBorder.value = String(!!st.imageBorder); fNameAlign.value = st.nameAlign || 'left';
+    updateStylePreview();
     clearErrors();
     openForm();
   }
@@ -1357,6 +1446,26 @@
     }
   }
 
+  function getStylePayload(){
+    return {
+      fontFamily:fFontFamily.value, nameFontSize:Number(fNameSize.value)||19, nameFontWeight:fNameWeight.value, nameFontStyle:fNameStyle.value, nameColor:fNameColor.value,
+      noteFontSize:Number(fNoteSize.value)||14, noteFontWeight:fNoteWeight.value, noteFontStyle:fNoteStyle.value, noteColor:fNoteColor.value,
+      cardBgColor:fCardBgColor.value, imageShape:fImageShape.value, imageFit:fImageFit.value, imageHeight:Number(fImageHeight.value)||160, imageRadius:Number(fImageRadius.value)||0, imageBorder:fImageBorder.value==='true', nameAlign:fNameAlign.value
+    };
+  }
+  function updateStylePreview(){
+    const st=getStylePayload();
+    const h=st.imageShape==='square'?270:(st.imageShape==='portrait'?340:st.imageHeight);
+    const img=fImage.value.trim();
+    stylePreview.innerHTML=`<div class="card" style="font-family:${escapeHtml(st.fontFamily)};background:${escapeHtml(st.cardBgColor)}"><div class="card-media" style="height:${h}px;${st.imageRadius?`border-radius:${st.imageRadius}px;`:''}">${img?`<img src="${escapeHtml(img)}" style="width:100%;height:100%;object-fit:${st.imageFit};${st.imageBorder?'border:1px solid var(--line);box-sizing:border-box;':''}">`:'<span class="placeholder">A</span>'}</div><div class="card-body"><span class="category-pill">${escapeHtml(fCategory.value||'ทั่วไป')}</span><p class="card-name" style="font-size:${st.nameFontSize}px;font-weight:${st.nameFontWeight};font-style:${st.nameFontStyle};color:${st.nameColor};text-align:${st.nameAlign}">${escapeHtml(fName.value||'ตัวอย่างชื่อโปรแกรม')}</p><p class="card-note" style="font-size:${st.noteFontSize}px;font-weight:${st.noteFontWeight};font-style:${st.noteFontStyle};color:${st.noteColor}">${escapeHtml(fNote.value||'ตัวอย่างรายละเอียดโปรแกรม')}</p><span class="date-pill">11 ก.ย. 2026</span></div></div>`;
+  }
+  function bindStylePreview(){
+    document.querySelectorAll('#formCard input, #formCard select, #formCard textarea').forEach(el=>el.addEventListener('input', updateStylePreview));
+    fNameColor.addEventListener('input',()=>{fNameColorText.value=fNameColor.value;}); fNoteColor.addEventListener('input',()=>{fNoteColorText.value=fNoteColor.value;}); fCardBgColor.addEventListener('input',()=>{fCardBgColorText.value=fCardBgColor.value;});
+    fNameColorText.addEventListener('input',()=>{if(/^#[0-9a-f]{6}$/i.test(fNameColorText.value)) fNameColor.value=fNameColorText.value; updateStylePreview();});
+    fNoteColorText.addEventListener('input',()=>{if(/^#[0-9a-f]{6}$/i.test(fNoteColorText.value)) fNoteColor.value=fNoteColorText.value; updateStylePreview();});
+    fCardBgColorText.addEventListener('input',()=>{if(/^#[0-9a-f]{6}$/i.test(fCardBgColorText.value)) fCardBgColor.value=fCardBgColorText.value; updateStylePreview();});
+  }
   async function saveItem(){
     clearErrors();
     let hasError = false;
@@ -1381,7 +1490,9 @@
     const payload = {
       name, time, url,
       image: fImage.value.trim(),
-      note: fNote.value.trim()
+      note: fNote.value.trim(),
+      category: fCategory.value.trim() || 'ทั่วไป',
+      style: getStylePayload()
     };
 
     saveBtn.disabled = true;
@@ -1436,6 +1547,8 @@
   saveBtn.addEventListener('click', saveItem);
   document.getElementById('searchInput').addEventListener('input', render);
 
+  bindStylePreview();
+  updateStylePreview();
   checkAuth();
 </script>
 </body>

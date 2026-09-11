@@ -36,13 +36,15 @@ router.post('/', requireAuth, requireAdmin, async (req, res) => {
   if (errorMsg) return res.status(400).json({ error: errorMsg });
 
   try {
-    const { name, time, url, image, note } = req.body;
+    const { name, time, url, image, note, category, style } = req.body;
     const link = await Link.create({
       name: name.trim(),
       time,
       url: url.trim(),
       image: (image || '').trim(),
-      note: (note || '').trim()
+      note: (note || '').trim(),
+      category: (category || 'ทั่วไป').trim(),
+      style: style || {}
     });
     res.status(201).json(link);
   } catch (err) {
@@ -56,7 +58,7 @@ router.put('/:id', requireAuth, requireAdmin, async (req, res) => {
   if (errorMsg) return res.status(400).json({ error: errorMsg });
 
   try {
-    const { name, time, url, image, note } = req.body;
+    const { name, time, url, image, note, category, style } = req.body;
     const updated = await Link.findByIdAndUpdate(
       req.params.id,
       {
@@ -64,7 +66,9 @@ router.put('/:id', requireAuth, requireAdmin, async (req, res) => {
         time,
         url: url.trim(),
         image: (image || '').trim(),
-        note: (note || '').trim()
+        note: (note || '').trim(),
+        category: (category || 'ทั่วไป').trim(),
+        style: style || {}
       },
       { new: true, runValidators: true }
     );
