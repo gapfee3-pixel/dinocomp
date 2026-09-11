@@ -672,6 +672,11 @@
     font-size:14px;
     padding:24px 0;
   }
+
+  .account-pill{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:980px;white-space:nowrap;background:rgba(118,118,128,.12);color:var(--text-secondary)}
+  .account-pill.ready{background:rgba(52,168,83,.14);color:#1E7E34}
+  .role-select{width:100%}
+  .email-actions .btn{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -709,16 +714,29 @@
   </aside>
 
   <div class="form-card" id="emailPanel">
-    <h2>Email Whitelist — จัดการผู้ที่เข้าใช้งานได้</h2>
+    <h2>จัดการผู้ใช้งาน</h2>
+    <p class="storage-note">เพิ่ม Email พร้อมตั้ง Password และสิทธิ์ได้จากหน้านี้เลย</p>
     <div class="form-grid">
       <div class="field full">
-        <label>เพิ่ม Email ใหม่เข้า Whitelist</label>
-        <input type="email" id="newAllowedEmail" placeholder="name@example.com">
+        <label>Email ใหม่</label>
+        <input type="email" id="newAllowedEmail" placeholder="name@example.com" autocomplete="off">
         <div class="error-text" id="errAllowedEmail">กรุณาใส่ Email ที่ถูกต้อง</div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="newAllowedPassword" placeholder="อย่างน้อย 8 ตัวอักษร" autocomplete="new-password">
+        <div class="error-text" id="errAllowedPassword">Password ต้องมีอย่างน้อย 8 ตัวอักษร</div>
+      </div>
+      <div class="field">
+        <label>สิทธิ์</label>
+        <select id="newAllowedRole">
+          <option value="user">ผู้ใช้งาน</option>
+          <option value="admin">ผู้ดูแลระบบ</option>
+        </select>
       </div>
     </div>
     <div class="form-actions">
-      <button class="btn" id="addAllowedEmailBtn">เพิ่ม Email</button>
+      <button class="btn" id="addAllowedEmailBtn">สร้างบัญชี</button>
       <button class="btn secondary" id="closeEmailPanelBtn">ปิด</button>
     </div>
     <p class="status-line" id="emailStatusLine"></p>
@@ -1028,7 +1046,7 @@
   backBtn.addEventListener('click', goBack);
   document.addEventListener('keydown', e => { if(e.key === 'Escape') setMenuOpen(false); });
 
-  // ---- Email Whitelist (เฉพาะ admin) ----
+  // ---- User / Email management (เฉพาะ admin) ----
   const ADMIN_EMAILS_BASE = '/api/admin/allowed-emails';
   let allowedEmails = [];
 
@@ -1036,6 +1054,8 @@
   const emailList = document.getElementById('emailList');
   const emailStatusLine = document.getElementById('emailStatusLine');
   const newAllowedEmailInput = document.getElementById('newAllowedEmail');
+  const newAllowedPasswordInput = document.getElementById('newAllowedPassword');
+  const newAllowedRoleInput = document.getElementById('newAllowedRole');
 
   function showEmailStatus(msg, type){
     emailStatusLine.textContent = msg;
@@ -1055,7 +1075,7 @@
 
   async function openEmailPanel(){
     if(!isAdmin()) return;
-    formCard.classList.remove('open'); // ปิดฟอร์มเพิ่มรายการโปรแกรมไว้ก่อน กันหน้าจอรก
+    formCard.classList.remove('open');
     emailPanel.classList.add('open');
     emailPanel.scrollIntoView({ behavior:'smooth', block:'nearest' });
     await loadAllowedEmails();
@@ -1063,7 +1083,10 @@
   function closeEmailPanel(){
     emailPanel.classList.remove('open');
     newAllowedEmailInput.value = '';
+    newAllowedPasswordInput.value = '';
+    newAllowedRoleInput.value = 'user';
     document.getElementById('errAllowedEmail').classList.remove('show');
+    document.getElementById('errAllowedPassword').classList.remove('show');
     hideEmailStatus();
   }
 
@@ -1078,13 +1101,13 @@
       renderAllowedEmails();
     }catch(e){
       emailList.innerHTML = '';
-      showEmailError('โหลดรายชื่อ Email ไม่สำเร็จ ลองใหม่อีกครั้ง');
+      showEmailError('โหลดรายชื่อผู้ใช้ไม่สำเร็จ ลองใหม่อีกครั้ง');
     }
   }
 
   function renderAllowedEmails(){
     if(allowedEmails.length === 0){
-      emailList.innerHTML = '<p class="email-empty">ยังไม่มี Email ใน Whitelist</p>';
+      emailList.innerHTML = '<p class="email-empty">ยังไม่มีผู้ใช้งาน</p>';
       return;
     }
     emailList.innerHTML = '';
@@ -1092,12 +1115,16 @@
       const row = document.createElement('div');
       row.className = 'email-row';
       const isAllowed = entry.status === 'allowed';
+      const hasUser = !!entry.user;
+      const roleText = hasUser ? (entry.user.role === 'admin' ? 'ผู้ดูแลระบบ' : 'ผู้ใช้งาน') : 'ยังไม่มีบัญชี';
       row.innerHTML = `
         <div class="email-info">
           <span class="email-text">${escapeHtml(entry.email)}</span>
           <span class="status-pill ${isAllowed ? 'allowed' : 'blocked'}">${isAllowed ? '🟢 อนุญาต' : '🔴 ระงับ'}</span>
+          <span class="account-pill ${hasUser ? 'ready' : ''}">${escapeHtml(roleText)}</span>
         </div>
         <div class="email-actions">
+          ${hasUser ? `<button class="btn secondary reset-password-btn" data-id="${entry.id}" data-email="${escapeHtml(entry.email)}">เปลี่ยนรหัส</button>` : ''}
           <button class="btn secondary toggle-status-btn" data-id="${entry.id}" data-next="${isAllowed ? 'blocked' : 'allowed'}">${isAllowed ? 'ระงับ' : 'เปิดใช้งาน'}</button>
           <button class="btn secondary delete-email-btn" data-id="${entry.id}">ลบ</button>
         </div>
@@ -1111,44 +1138,70 @@
     emailList.querySelectorAll('.delete-email-btn').forEach(btn => {
       btn.addEventListener('click', () => deleteAllowedEmail(btn.dataset.id));
     });
+    emailList.querySelectorAll('.reset-password-btn').forEach(btn => {
+      btn.addEventListener('click', () => resetUserPassword(btn.dataset.id, btn.dataset.email));
+    });
   }
 
   async function addAllowedEmail(){
     const email = newAllowedEmailInput.value.trim();
-    const errEl = document.getElementById('errAllowedEmail');
-    errEl.classList.remove('show');
+    const password = newAllowedPasswordInput.value;
+    const role = newAllowedRoleInput.value;
+    const errEmail = document.getElementById('errAllowedEmail');
+    const errPassword = document.getElementById('errAllowedPassword');
+    errEmail.classList.remove('show');
+    errPassword.classList.remove('show');
     hideEmailStatus();
 
-    if(!email || !isValidEmail(email)){
-      errEl.classList.add('show');
-      return;
-    }
+    let invalid = false;
+    if(!email || !isValidEmail(email)){ errEmail.classList.add('show'); invalid = true; }
+    if(password.length < 8){ errPassword.classList.add('show'); invalid = true; }
+    if(invalid) return;
 
     const addBtn = document.getElementById('addAllowedEmailBtn');
     addBtn.disabled = true;
-    addBtn.textContent = 'กำลังเพิ่ม…';
+    addBtn.textContent = 'กำลังสร้าง…';
 
     try{
       const res = await fetch(ADMIN_EMAILS_BASE, {
         method: 'POST',
         headers: Object.assign({ 'Content-Type':'application/json' }, authHeaders()),
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email, password, role })
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if(res.status === 401){ await doLogout(); return; }
       if(!res.ok){
-        showEmailError(data.error || 'เพิ่ม Email ไม่สำเร็จ');
+        showEmailError(data.error || 'สร้างบัญชีไม่สำเร็จ');
         return;
       }
       newAllowedEmailInput.value = '';
-      showEmailSuccess(`เพิ่ม ${data.email} เข้า Whitelist สำเร็จ`);
+      newAllowedPasswordInput.value = '';
+      newAllowedRoleInput.value = 'user';
+      showEmailSuccess(`สร้างบัญชี ${data.email} สำเร็จ`);
       await loadAllowedEmails();
     }catch(e){
-      showEmailError('เพิ่ม Email ไม่สำเร็จ ลองใหม่อีกครั้ง');
+      showEmailError('สร้างบัญชีไม่สำเร็จ ลองใหม่อีกครั้ง');
     }finally{
       addBtn.disabled = false;
-      addBtn.textContent = 'เพิ่ม Email';
+      addBtn.textContent = 'สร้างบัญชี';
     }
+  }
+
+  async function resetUserPassword(id, email){
+    const password = prompt(`ตั้ง Password ใหม่สำหรับ ${email}\nอย่างน้อย 8 ตัวอักษร:`);
+    if(password === null) return;
+    if(password.length < 8){ showEmailError('Password ต้องมีอย่างน้อย 8 ตัวอักษร'); return; }
+    try{
+      const res = await fetch(`${ADMIN_EMAILS_BASE}/${id}/password`, {
+        method:'PATCH',
+        headers:Object.assign({ 'Content-Type':'application/json' }, authHeaders()),
+        body:JSON.stringify({ password })
+      });
+      const data = await res.json().catch(() => ({}));
+      if(res.status === 401){ await doLogout(); return; }
+      if(!res.ok){ showEmailError(data.error || 'เปลี่ยน Password ไม่สำเร็จ'); return; }
+      showEmailSuccess(`เปลี่ยน Password ของ ${email} สำเร็จ`);
+    }catch(e){ showEmailError('เปลี่ยน Password ไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   }
 
   async function toggleEmailStatus(id, nextStatus){
@@ -1160,15 +1213,10 @@
       });
       const data = await res.json().catch(() => ({}));
       if(res.status === 401){ await doLogout(); return; }
-      if(!res.ok){
-        showEmailError(data.error || 'อัปเดตสถานะไม่สำเร็จ');
-        return;
-      }
+      if(!res.ok){ showEmailError(data.error || 'อัปเดตสถานะไม่สำเร็จ'); return; }
       showEmailSuccess(nextStatus === 'allowed' ? `เปิดใช้งาน ${data.email} แล้ว` : `ระงับ ${data.email} แล้ว`);
       await loadAllowedEmails();
-    }catch(e){
-      showEmailError('อัปเดตสถานะไม่สำเร็จ ลองใหม่อีกครั้ง');
-    }
+    }catch(e){ showEmailError('อัปเดตสถานะไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   }
 
   async function deleteAllowedEmail(id){
@@ -1183,9 +1231,7 @@
       }
       showEmailSuccess('ลบ Email ออกจาก Whitelist สำเร็จ');
       await loadAllowedEmails();
-    }catch(e){
-      showEmailError('ลบ Email ไม่สำเร็จ ลองใหม่อีกครั้ง');
-    }
+    }catch(e){ showEmailError('ลบ Email ไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   }
 
   document.getElementById('manageEmailsBtn').addEventListener('click', () => {
@@ -1194,7 +1240,8 @@
   });
   document.getElementById('closeEmailPanelBtn').addEventListener('click', closeEmailPanel);
   document.getElementById('addAllowedEmailBtn').addEventListener('click', addAllowedEmail);
-  newAllowedEmailInput.addEventListener('keydown', e => { if(e.key === 'Enter') addAllowedEmail(); });
+  newAllowedEmailInput.addEventListener('keydown', e => { if(e.key === 'Enter') newAllowedPasswordInput.focus(); });
+  newAllowedPasswordInput.addEventListener('keydown', e => { if(e.key === 'Enter') addAllowedEmail(); });
 
   async function loadItems(){
     countLabel.textContent = 'กำลังโหลด…';
