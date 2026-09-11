@@ -180,6 +180,14 @@
   }
   @media (prefers-reduced-motion:reduce){.sea-wave,.runner-car,.car-wheel,.runner-dust i,.road-scenery{animation:none!important}}
 
+  /* --- Live Thailand clock + weather --- */
+  .live-info{position:absolute;top:72px;right:24px;z-index:20;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.72);border-radius:16px;background:rgba(255,255,255,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(45,48,80,.10);font-size:12px;color:#3d4052;white-space:nowrap}
+  .live-time{font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .live-divider{width:1px;height:15px;background:rgba(60,60,80,.18)}
+  .live-weather{font-weight:650}
+  .live-location{color:#6e6e73}
+  @media (max-width:700px){.live-info{top:66px;right:12px;padding:7px 10px;font-size:11px}.live-location{display:none}}
+
   .hero-content{
     position:relative;
     z-index:1;
@@ -781,6 +789,12 @@
       <span class="petal p5"></span>
       <span class="petal p6"></span>
       <span class="petal p7"></span>
+    </div>
+    <div class="live-info" aria-label="เวลาและสภาพอากาศปัจจุบัน">
+      <span>🕐</span><span class="live-time" id="liveTime">--:--</span>
+      <span class="live-divider"></span>
+      <span class="live-weather" id="liveWeather">🌤️ --°C</span>
+      <span class="live-location">วารินชำราบ</span>
     </div>
     <div class="runner-scene" aria-label="รถ DinoCom ขับชมวิวทะเลอัตโนมัติ">
       <div class="sea-sun" aria-hidden="true"></div>
@@ -1640,6 +1654,36 @@
   });
   document.getElementById('topLogoutBtn').addEventListener('click', doLogout);
   document.addEventListener('click', () => userMenuDropdown.classList.remove('open'));
+
+  // Live clock (Thailand) + current weather (Warin Chamrap, Open-Meteo, no API key)
+  (function initLiveInfo(){
+    const timeEl=document.getElementById('liveTime');
+    const weatherEl=document.getElementById('liveWeather');
+    function updateClock(){
+      const now=new Date();
+      timeEl.textContent=new Intl.DateTimeFormat('th-TH',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);
+    }
+    updateClock(); setInterval(updateClock,1000);
+    const weatherMap={
+      0:['☀️','แจ่มใส'],1:['🌤️','มีเมฆเล็กน้อย'],2:['⛅','มีเมฆบางส่วน'],3:['☁️','มีเมฆมาก'],
+      45:['🌫️','หมอก'],48:['🌫️','หมอก'],51:['🌦️','ฝนปรอย'],53:['🌦️','ฝนปรอย'],55:['🌧️','ฝนปรอย'],
+      61:['🌦️','ฝน'],63:['🌧️','ฝน'],65:['🌧️','ฝนหนัก'],71:['🌨️','หิมะ'],73:['🌨️','หิมะ'],75:['❄️','หิมะหนัก'],
+      80:['🌦️','ฝนซู่'],81:['🌧️','ฝนซู่'],82:['⛈️','ฝนซู่หนัก'],95:['⛈️','พายุฝนฟ้าคะนอง'],96:['⛈️','พายุฝน'],99:['⛈️','พายุฝน']
+    };
+    async function updateWeather(){
+      try{
+        const url='https://api.open-meteo.com/v1/forecast?latitude=15.1932&longitude=104.8628&current=temperature_2m,weather_code&timezone=Asia%2FBangkok';
+        const r=await fetch(url,{cache:'no-store'});
+        if(!r.ok) throw new Error('weather request failed');
+        const d=await r.json();
+        const temp=Math.round(d.current.temperature_2m);
+        const [icon,label]=weatherMap[d.current.weather_code]||['🌤️','สภาพอากาศ'];
+        weatherEl.textContent=`${icon} ${temp}°C`;
+        weatherEl.title=label;
+      }catch(e){ weatherEl.textContent='🌤️ --°C'; }
+    }
+    updateWeather(); setInterval(updateWeather,10*60*1000);
+  })();
 
   // Auto-jump: the dino hops when an obstacle gets close. This is decorative only; no game state or score.
   (function initAutoRunner(){
