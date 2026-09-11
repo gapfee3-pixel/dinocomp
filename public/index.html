@@ -894,23 +894,37 @@
       <div class="runner-dust" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       <div class="runner-dino" id="runnerDino">
         <div class="dino-label">DinoCom ❤️</div>
-        <svg viewBox="0 0 150 135" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ไดโนเสาร์กำลังวิ่ง">
-          <path class="tail" d="M46 73 C25 69 9 77 3 91 C20 91 37 88 53 82" fill="#F49B57" stroke="#5D4435" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M52 48 C55 24 75 13 99 18 C116 21 128 34 126 50 C124 64 111 72 94 72 L82 99 C74 113 53 106 49 91 Z" fill="#F7A65D" stroke="#5D4435" stroke-width="3"/>
-          <path d="M87 22 C96 6 113 10 118 25 L106 32 Z" fill="#F7A65D" stroke="#5D4435" stroke-width="3"/>
-          <path d="M99 22 L104 12 L110 25" fill="#FFCF93"/>
-          <ellipse cx="106" cy="43" rx="3.7" ry="5" fill="#241C19"/><circle cx="107" cy="41" r="1.3" fill="#fff"/>
-          <path d="M111 54 Q119 59 126 54" fill="none" stroke="#5D4435" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M120 52 L125 54 L120 57" fill="#F48D86" stroke="#5D4435" stroke-width="1.5"/>
-          <circle cx="101" cy="52" r="5" fill="#FFB7A2" opacity=".65"/>
-          <path d="M80 55 Q90 63 94 70" fill="none" stroke="#D87943" stroke-width="3" stroke-linecap="round"/>
-          <path class="arm back" d="M80 67 Q72 73 75 83" fill="none" stroke="#F49B57" stroke-width="7" stroke-linecap="round"/>
-          <path class="arm" d="M96 66 Q106 71 107 79" fill="none" stroke="#F49B57" stroke-width="7" stroke-linecap="round"/>
-          <path class="leg back" d="M67 93 Q57 103 50 113" fill="none" stroke="#E9894E" stroke-width="9" stroke-linecap="round"/>
-          <path class="leg" d="M82 93 Q91 103 88 115" fill="none" stroke="#F49B57" stroke-width="9" stroke-linecap="round"/>
-          <path d="M47 112 L38 114 M88 114 L96 116" stroke="#5D4435" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="65" cy="42" r="3" fill="#E97C4C"/>
-          <path d="M61 28 L67 19 L72 29 M72 24 L78 15 L82 27" fill="#E97C4C" stroke="#5D4435" stroke-width="2"/>
+        <svg viewBox="0 0 180 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ไดโนเสาร์ T-Rex กำลังวิ่ง">
+          <!-- tail -->
+          <path class="tail" d="M72 91 C48 86 27 92 9 111 C31 112 52 107 75 101 Z" fill="#F39A52" stroke="#553F34" stroke-width="4" stroke-linejoin="round"/>
+          <!-- back spikes -->
+          <path d="M72 47 L78 34 L85 48 L94 31 L100 49 L111 35 L115 56" fill="#E57E45" stroke="#553F34" stroke-width="3" stroke-linejoin="round"/>
+          <!-- body -->
+          <path d="M61 52 C66 39 86 35 108 43 C122 48 130 60 128 78 C126 94 113 104 94 105 L76 104 C60 99 53 82 55 67 Z" fill="#F6A45B" stroke="#553F34" stroke-width="4"/>
+          <!-- belly -->
+          <path d="M91 62 C105 67 112 80 107 96 C103 103 94 106 84 102 C77 96 75 84 78 73 C81 66 85 63 91 62Z" fill="#FFE0AE"/>
+          <!-- rear leg -->
+          <path class="leg back" d="M72 91 C64 104 57 116 47 126 L58 128 L71 119 L82 102" fill="#E8894B" stroke="#553F34" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M47 126 L38 129 M47 126 L43 132 M57 127 L51 133" stroke="#553F34" stroke-width="3" stroke-linecap="round"/>
+          <!-- front leg -->
+          <path class="leg" d="M101 94 C105 106 110 116 119 123 L130 122 L125 115 L119 112 L116 94" fill="#F39A52" stroke="#553F34" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M119 123 L130 126 M119 123 L125 129 M125 122 L135 124" stroke="#553F34" stroke-width="3" stroke-linecap="round"/>
+          <!-- neck -->
+          <path d="M104 62 C102 49 105 38 114 31 L135 39 L132 66 Z" fill="#F6A45B" stroke="#553F34" stroke-width="4"/>
+          <!-- head -->
+          <path d="M112 18 C126 7 151 10 163 22 C170 29 170 40 165 49 C160 57 149 61 137 57 L128 52 L114 52 C107 49 103 42 105 34 C106 27 108 22 112 18 Z" fill="#F7A75E" stroke="#553F34" stroke-width="4"/>
+          <!-- snout / jaw -->
+          <path d="M139 43 C150 43 160 42 169 47 C163 57 150 61 137 56 L126 51 Z" fill="#F6A45B" stroke="#553F34" stroke-width="3"/>
+          <path d="M142 48 L147 53 L152 48 L157 52 L162 47" fill="#FFF4D8" stroke="#553F34" stroke-width="2" stroke-linejoin="round"/>
+          <!-- eye -->
+          <circle cx="143" cy="30" r="6" fill="#201A18"/><circle cx="145" cy="28" r="2" fill="#fff"/>
+          <!-- cheek -->
+          <circle cx="133" cy="42" r="6" fill="#FFB6A0" opacity=".7"/>
+          <!-- little arms -->
+          <path class="arm back" d="M112 65 Q101 68 99 78 L108 82" fill="none" stroke="#E8894B" stroke-width="7" stroke-linecap="round"/>
+          <path class="arm" d="M124 65 Q132 70 130 78 L123 81" fill="none" stroke="#F39A52" stroke-width="7" stroke-linecap="round"/>
+          <!-- brow -->
+          <path d="M136 21 Q144 17 151 21" fill="none" stroke="#553F34" stroke-width="3" stroke-linecap="round"/>
         </svg>
       </div>
       <div class="runner-obstacle cactus o1">
