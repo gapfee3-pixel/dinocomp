@@ -509,6 +509,28 @@
     .toolbar{ position:static; }
   }
 
+
+  /* ---- Side menu / navigation drawer ---- */
+  .menu-toggle{position:fixed;top:16px;left:16px;z-index:1002;width:46px;height:46px;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:var(--shadow-md);cursor:pointer;display:none;align-items:center;justify-content:center;flex-direction:column;gap:5px;}
+  .menu-toggle span{width:20px;height:2px;border-radius:99px;background:var(--text);transition:transform .2s ease,opacity .2s ease;}
+  .menu-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-toggle.open span:nth-child(2){opacity:0;}
+  .menu-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:1000;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+  .menu-overlay.open{opacity:1;pointer-events:auto;}
+  .side-menu{position:fixed;top:0;left:0;bottom:0;width:min(330px,88vw);z-index:1001;padding:82px 18px 24px;background:rgba(255,255,255,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-right:1px solid var(--line);box-shadow:var(--shadow-lg);transform:translateX(-105%);transition:transform .25s cubic-bezier(.2,.8,.2,1);overflow-y:auto;}
+  .side-menu.open{transform:translateX(0);}
+  .menu-user{padding:16px;margin-bottom:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:16px;}
+  .menu-user-name{font-weight:700;margin-bottom:8px;word-break:break-word;}
+  .menu-nav{display:flex;flex-direction:column;gap:8px;}
+  .menu-item{width:100%;display:flex;align-items:center;gap:12px;padding:13px 15px;border:0;border-radius:13px;background:transparent;color:var(--text);font-family:inherit;font-size:15px;font-weight:600;text-align:left;cursor:pointer;}
+  .menu-item:hover{background:rgba(118,118,128,.12);}
+  .menu-item.danger{color:var(--danger);}
+  .menu-divider{height:1px;background:var(--line);margin:8px 0;}
+  .auth-bar{display:none;}
+  .menu-toggle{display:flex;}
+  @media (max-width:520px){.menu-toggle{top:12px;left:12px}.hero{padding-top:72px}}
+
   /* ---- Login screen ---- */
   .login-screen{
     min-height:100vh;
@@ -673,14 +695,18 @@
 
   <div id="appView" style="display:none;">
 
-  <div class="auth-bar">
-    <div class="auth-user">
-      <span class="auth-name" id="authUsername"></span>
-      <span class="role-badge" id="authRole"></span>
-    </div>
-    <button class="btn secondary" id="manageEmailsBtn" style="display:none;">จัดการ Email</button>
-    <button class="btn secondary logout-btn" id="logoutBtn">ออกจากระบบ</button>
-  </div>
+  <button class="menu-toggle" id="menuToggle" aria-label="เปิดเมนู" aria-expanded="false"><span></span><span></span><span></span></button>
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <aside class="side-menu" id="sideMenu" aria-label="เมนูหลัก">
+    <div class="menu-user"><div class="menu-user-name" id="authUsername"></div><span class="role-badge" id="authRole"></span></div>
+    <nav class="menu-nav">
+      <button class="menu-item" id="homeBtn">⌂ <span>หน้าแรก / Home</span></button>
+      <button class="menu-item" id="backBtn">← <span>ย้อนกลับ</span></button>
+      <button class="menu-item" id="manageEmailsBtn" style="display:none;">✉ <span>จัดการ Email</span></button>
+      <div class="menu-divider"></div>
+      <button class="menu-item danger" id="logoutBtn">↪ <span>ออกจากระบบ</span></button>
+    </nav>
+  </aside>
 
   <div class="form-card" id="emailPanel">
     <h2>Email Whitelist — จัดการผู้ที่เข้าใช้งานได้</h2>
@@ -964,6 +990,43 @@
   document.getElementById('loginIdentifier').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
   document.getElementById('loginPassword').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
+
+  // ---- Side menu ----
+  const menuToggle = document.getElementById('menuToggle');
+  const sideMenu = document.getElementById('sideMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const homeBtn = document.getElementById('homeBtn');
+  const backBtn = document.getElementById('backBtn');
+
+  function setMenuOpen(open){
+    sideMenu.classList.toggle('open', open);
+    menuOverlay.classList.toggle('open', open);
+    menuToggle.classList.toggle('open', open);
+    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function goHome(){
+    closeForm();
+    closeEmailPanel();
+    setMenuOpen(false);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function goBack(){
+    setMenuOpen(false);
+    if(window.history.length > 1){
+      window.history.back();
+      setTimeout(() => { if(document.visibilityState === 'visible') window.scrollTo({top:0, behavior:'smooth'}); }, 250);
+    }else{
+      goHome();
+    }
+  }
+
+  menuToggle.addEventListener('click', () => setMenuOpen(!sideMenu.classList.contains('open')));
+  menuOverlay.addEventListener('click', () => setMenuOpen(false));
+  homeBtn.addEventListener('click', goHome);
+  backBtn.addEventListener('click', goBack);
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') setMenuOpen(false); });
 
   // ---- Email Whitelist (เฉพาะ admin) ----
   const ADMIN_EMAILS_BASE = '/api/admin/allowed-emails';
