@@ -304,7 +304,29 @@
   }
   .btn.secondary:hover{ background:rgba(118,118,128,0.2); }
 
-  .toolbar-actions{ display:flex; align-items:center; gap:16px; }
+  .toolbar-actions{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .filter-select{padding:11px 38px 11px 14px;border:1px solid var(--line);border-radius:980px;background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;outline:none;}
+  .filter-select:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(0,102,204,.12);}
+  .filter-chip{padding:10px 14px;border:1px solid var(--line);border-radius:980px;background:var(--surface);color:var(--text-secondary);font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;}
+  .filter-chip.active{background:rgba(0,102,204,.1);color:var(--accent);border-color:rgba(0,102,204,.25);}
+  .stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin:-8px 0 28px;}
+  .stat-pill{padding:9px 13px;border-radius:14px;background:var(--surface);border:1px solid var(--line);font-size:13px;color:var(--text-secondary);box-shadow:var(--shadow-sm);}
+  .stat-pill strong{color:var(--text);font-size:14px;}
+  .auth-top{position:absolute;top:16px;right:24px;z-index:20;}
+  .user-menu{position:relative;}
+  .user-menu-btn{display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid rgba(0,0,0,.08);border-radius:980px;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);font-family:inherit;font-weight:600;color:var(--text);cursor:pointer;box-shadow:var(--shadow-sm);}
+  .user-menu-dropdown{position:absolute;right:0;top:48px;min-width:190px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-lg);display:none;}
+  .user-menu-dropdown.open{display:block;}
+  .user-menu-dropdown button{width:100%;padding:11px 12px;border:0;background:transparent;border-radius:10px;text-align:left;font-family:inherit;font-size:14px;color:var(--text);cursor:pointer;}
+  .user-menu-dropdown button:hover{background:rgba(118,118,128,.1);}
+  .user-menu-dropdown .danger{color:var(--danger);}
+  .favorite-btn{background:none;border:0;cursor:pointer;font-size:22px;line-height:1;padding:4px 6px;border-radius:9px;color:#b7b7bd;}
+  .favorite-btn.active{color:#f5b301;}
+  .favorite-btn:hover{background:rgba(245,179,1,.1);}
+  .download-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;background:var(--accent);color:#fff;text-decoration:none;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(0,102,204,.18);}
+  .download-btn:hover{background:var(--accent-hover);color:#fff;}
+  .recent-badge{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;padding:3px 7px;border-radius:999px;background:rgba(52,168,83,.14);color:#1e7e34;}
+  @media (max-width:700px){.auth-top{right:14px;top:12px}.user-menu-btn{padding:8px 11px}.toolbar-actions{width:100%;justify-content:flex-start}.filter-select{flex:1;min-width:150px}.stats-bar{margin-top:4px}.count-label{order:5}}
 
   /* ---- Add / edit form card ---- */
   .form-card{
@@ -717,6 +739,16 @@
 
   <div id="appView" style="display:none;">
 
+  <div class="auth-top">
+    <div class="user-menu">
+      <button class="user-menu-btn" id="userMenuBtn">👤 <span id="topUsername">Admin</span> <span>⌄</span></button>
+      <div class="user-menu-dropdown" id="userMenuDropdown">
+        <button id="myAccountBtn">👤 บัญชีของฉัน</button>
+        <button id="topLogoutBtn" class="danger">↪ ออกจากระบบ</button>
+      </div>
+    </div>
+  </div>
+
   <button class="menu-toggle" id="menuToggle" aria-label="เปิดเมนู" aria-expanded="false"><span></span><span></span><span></span></button>
   <div class="menu-overlay" id="menuOverlay"></div>
   <aside class="side-menu" id="sideMenu" aria-label="เมนูหลัก">
@@ -724,7 +756,8 @@
     <nav class="menu-nav">
       <button class="menu-item" id="homeBtn">⌂ <span>หน้าแรก / Home</span></button>
       <button class="menu-item" id="backBtn">← <span>ย้อนกลับ</span></button>
-      <button class="menu-item" id="manageEmailsBtn" style="display:none;">✉ <span>จัดการ Email</span></button>
+      <button class="menu-item" id="manageEmailsBtn" style="display:none;">👥 <span>จัดการผู้ใช้งาน</span></button>
+      <button class="menu-item" id="manageProgramsBtn" style="display:none;">📦 <span>จัดการโปรแกรม</span></button>
       <div class="menu-divider"></div>
       <button class="menu-item danger" id="logoutBtn">↪ <span>ออกจากระบบ</span></button>
     </nav>
@@ -820,10 +853,21 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         <input type="text" id="searchInput" placeholder="ค้นหาชื่อโปรแกรม">
       </div>
+      <select class="filter-select" id="categoryFilter" aria-label="กรองหมวดหมู่"><option value="all">ทั้งหมด</option></select>
+      <button class="filter-chip" id="favoritesFilter">⭐ รายการโปรด</button>
+      <button class="filter-chip" id="recentFilter">🕐 เพิ่มล่าสุด 7 วัน</button>
       <div class="toolbar-actions">
         <span class="count-label" id="countLabel">กำลังโหลด…</span>
         <button class="btn" id="toggleFormBtn">เพิ่มรายการ</button>
       </div>
+    </div>
+
+    <div class="stats-bar" id="statsBar">
+      <div class="stat-pill">ทั้งหมด <strong id="statTotal">0</strong></div>
+      <div class="stat-pill">โปรแกรม <strong id="statProgram">0</strong></div>
+      <div class="stat-pill">ไดรเวอร์ <strong id="statDriver">0</strong></div>
+      <div class="stat-pill">ฟอนต์ <strong id="statFont">0</strong></div>
+      <div class="stat-pill">อื่นๆ <strong id="statOther">0</strong></div>
     </div>
 
     <p class="storage-note">ข้อมูลถูกบันทึกบนเซิร์ฟเวอร์กลาง เปิดจากเครื่องหรืออุปกรณ์ไหนก็เห็นข้อมูลชุดเดียวกัน</p>
@@ -915,6 +959,13 @@
   const formTitle = document.getElementById('formTitle');
   const countLabel = document.getElementById('countLabel');
   const statusLine = document.getElementById('statusLine');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const favoritesFilter = document.getElementById('favoritesFilter');
+  const recentFilter = document.getElementById('recentFilter');
+  const topUsername = document.getElementById('topUsername');
+  const userMenuBtn = document.getElementById('userMenuBtn');
+  const userMenuDropdown = document.getElementById('userMenuDropdown');
+  const favoritesKey = 'dinocompFavorites';
 
   const fName = document.getElementById('fName');
   const fTime = document.getElementById('fTime');
@@ -994,11 +1045,13 @@
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('appView').style.display = 'block';
     document.getElementById('authUsername').textContent = currentUser.username;
+    topUsername.textContent = currentUser.username || currentUser.email || 'ผู้ใช้งาน';
     const roleEl = document.getElementById('authRole');
     roleEl.textContent = isAdmin() ? 'ผู้ดูแลระบบ' : 'ผู้ใช้งาน';
     roleEl.className = 'role-badge' + (isAdmin() ? ' admin' : '');
     document.getElementById('toggleFormBtn').style.display = isAdmin() ? 'inline-block' : 'none';
     document.getElementById('manageEmailsBtn').style.display = isAdmin() ? 'inline-block' : 'none';
+    document.getElementById('manageProgramsBtn').style.display = isAdmin() ? 'inline-block' : 'none';
     loadItems();
   }
 
@@ -1310,12 +1363,51 @@
   newAllowedEmailInput.addEventListener('keydown', e => { if(e.key === 'Enter') newAllowedPasswordInput.focus(); });
   newAllowedPasswordInput.addEventListener('keydown', e => { if(e.key === 'Enter') addAllowedEmail(); });
 
+  function getFavorites(){
+    try{return JSON.parse(localStorage.getItem(favoritesKey) || '[]');}catch(e){return [];}
+  }
+  function setFavorites(ids){ localStorage.setItem(favoritesKey, JSON.stringify(ids)); }
+  function isFavorite(id){ return getFavorites().includes(id); }
+  function toggleFavorite(id){
+    const fav = getFavorites();
+    const idx = fav.indexOf(id);
+    if(idx >= 0) fav.splice(idx,1); else fav.push(id);
+    setFavorites(fav);
+    render();
+  }
+  function refreshCategoryFilter(){
+    const current = categoryFilter.value || 'all';
+    const cats = [...new Set(items.map(it => (it.category || 'ทั่วไป').trim() || 'ทั่วไป'))].sort((a,b)=>a.localeCompare(b,'th'));
+    categoryFilter.innerHTML = '<option value="all">ทั้งหมด</option>' + cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+    categoryFilter.value = cats.includes(current) ? current : 'all';
+  }
+  function updateStats(){
+    const total=items.length;
+    const count=(name)=>items.filter(it=>(it.category||'ทั่วไป').trim().toLowerCase()===name).length;
+    const program=count('โปรแกรม'), driver=count('ไดรเวอร์'), font=count('ฟอนต์');
+    document.getElementById('statTotal').textContent=total;
+    document.getElementById('statProgram').textContent=program;
+    document.getElementById('statDriver').textContent=driver;
+    document.getElementById('statFont').textContent=font;
+    document.getElementById('statOther').textContent=Math.max(0,total-program-driver-font);
+  }
+  function isRecent7Days(it){
+    if(!it.time) return false;
+    const d=new Date(it.time+'T00:00:00');
+    if(isNaN(d)) return false;
+    const now=new Date(); now.setHours(23,59,59,999);
+    const from=new Date(now); from.setDate(now.getDate()-6); from.setHours(0,0,0,0);
+    return d>=from && d<=now;
+  }
+
   async function loadItems(){
     countLabel.textContent = 'กำลังโหลด…';
     try{
       const res = await fetch(API_BASE);
       if(!res.ok) throw new Error('load failed');
       items = await res.json();
+      refreshCategoryFilter();
+      updateStats();
       hideStatus();
     }catch(e){
       items = [];
@@ -1326,11 +1418,19 @@
 
   function render(){
     const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+    const selectedCategory = categoryFilter.value || 'all';
+    const onlyFavorites = favoritesFilter.classList.contains('active');
+    const onlyRecent = recentFilter.classList.contains('active');
+    const favs = getFavorites();
     const filtered = items
       .filter(it => it.name.toLowerCase().includes(query))
+      .filter(it => selectedCategory === 'all' || (it.category || 'ทั่วไป') === selectedCategory)
+      .filter(it => !onlyFavorites || favs.includes(it.id))
+      .filter(it => !onlyRecent || isRecent7Days(it))
       .sort((a,b) => (b.time || '').localeCompare(a.time || ''));
 
-    countLabel.textContent = items.length + ' รายการ';
+    countLabel.textContent = filtered.length + ' รายการ';
+    updateStats();
 
     grid.innerHTML = '';
     if(filtered.length === 0){
@@ -1360,13 +1460,16 @@
       card.innerHTML = `
         <div class="card-media" style="${mediaStyle}">${mediaInner}</div>
         <div class="card-body">
-          ${it.category ? `<span class="category-pill">${escapeHtml(it.category)}</span>` : ''}
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+            <div>${it.category ? `<span class="category-pill">${escapeHtml(it.category)}</span>` : ''}${isRecent7Days(it) ? '<span class="recent-badge">ใหม่</span>' : ''}</div>
+            <button class="favorite-btn ${isFavorite(it.id) ? 'active' : ''}" data-id="${it.id}" title="${isFavorite(it.id) ? 'เอาออกจากรายการโปรด' : 'เพิ่มรายการโปรด'}">${isFavorite(it.id) ? '★' : '☆'}</button>
+          </div>
           <p class="card-name" style="font-size:${Number(st.nameFontSize || 19)}px;font-weight:${escapeHtml(st.nameFontWeight || '600')};font-style:${escapeHtml(st.nameFontStyle || 'normal')};color:${escapeHtml(st.nameColor || '#111111')};text-align:${escapeHtml(st.nameAlign || 'left')}">${escapeHtml(it.name)}</p>
           ${it.note ? `<p class="card-note" style="font-size:${Number(st.noteFontSize || 14)}px;font-weight:${escapeHtml(st.noteFontWeight || '400')};font-style:${escapeHtml(st.noteFontStyle || 'normal')};color:${escapeHtml(st.noteColor || '#6e6e73')}">${escapeHtml(it.note)}</p>` : ''}
           <span class="date-pill">${formatDate(it.time) || 'ไม่ระบุวันที่'}</span>
         </div>
         <div class="card-footer">
-          <a class="open-link" href="${escapeHtml(it.url)}" target="_blank" rel="noopener noreferrer">เปิดลิงก์ →</a>
+          <a class="download-btn" href="${escapeHtml(it.url)}" target="_blank" rel="noopener noreferrer">⬇ ดาวน์โหลด</a>
           ${isAdmin() ? `
           <div class="card-actions">
             <button class="icon-btn edit" data-id="${it.id}">แก้ไข</button>
@@ -1377,6 +1480,9 @@
       grid.appendChild(card);
     });
 
+    grid.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', () => toggleFavorite(btn.dataset.id));
+    });
     grid.querySelectorAll('.edit').forEach(btn => {
       btn.addEventListener('click', () => openEdit(btn.dataset.id));
     });
@@ -1546,6 +1652,21 @@
   document.getElementById('cancelBtn').addEventListener('click', closeForm);
   saveBtn.addEventListener('click', saveItem);
   document.getElementById('searchInput').addEventListener('input', render);
+
+  document.getElementById('manageProgramsBtn').addEventListener('click', () => {
+    setMenuOpen(false);
+    openForm();
+  });
+  categoryFilter.addEventListener('change', render);
+  favoritesFilter.addEventListener('click', () => { favoritesFilter.classList.toggle('active'); render(); });
+  recentFilter.addEventListener('click', () => { recentFilter.classList.toggle('active'); render(); });
+  userMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); userMenuDropdown.classList.toggle('open'); });
+  document.getElementById('myAccountBtn').addEventListener('click', () => {
+    userMenuDropdown.classList.remove('open');
+    alert(`บัญชีของฉัน\n\nEmail: ${currentUser?.email || '-'}\nสิทธิ์: ${isAdmin() ? 'ผู้ดูแลระบบ' : 'ผู้ใช้งาน'}`);
+  });
+  document.getElementById('topLogoutBtn').addEventListener('click', doLogout);
+  document.addEventListener('click', () => userMenuDropdown.classList.remove('open'));
 
   bindStylePreview();
   updateStylePreview();
