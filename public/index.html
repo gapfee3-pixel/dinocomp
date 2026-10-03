@@ -739,6 +739,7 @@
     <nav class="menu-nav">
       <button class="menu-item" id="homeBtn">⌂ <span>หน้าแรก / Home</span></button>
       <button class="menu-item" id="backBtn">← <span>ย้อนกลับ</span></button>
+      <button class="menu-item" id="printerTestBtn">🖨️ <span>ใบทดสอบเครื่องพิมพ์ A4</span></button>
       <button class="menu-item" id="manageEmailsBtn" style="display:none;">👥 <span>จัดการผู้ใช้งาน</span></button>
       <button class="menu-item" id="manageProgramsBtn" style="display:none;">📦 <span>จัดการโปรแกรม</span></button>
       <div class="menu-divider"></div>
@@ -1151,6 +1152,7 @@
   menuOverlay.addEventListener('click', () => setMenuOpen(false));
   homeBtn.addEventListener('click', goHome);
   backBtn.addEventListener('click', goBack);
+  document.getElementById('printerTestBtn').addEventListener('click', () => { setMenuOpen(false); window.location.href = '/printer-test.html'; });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') setMenuOpen(false); });
 
   // ---- User / Email management (เฉพาะ admin) ----
