@@ -221,6 +221,20 @@
     .dino-hero-bg,.dino-hero-light,.dino-meteor{animation:none!important}
   }
 
+
+  /* ===== DinoCom live clock + weather ===== */
+  .live-info{position:fixed;right:22px;bottom:22px;z-index:50;display:flex;align-items:center;gap:10px;min-width:255px;padding:11px 14px;border:1px solid rgba(255,255,255,.65);border-radius:18px;background:rgba(255,255,255,.88);box-shadow:0 12px 34px rgba(28,39,60,.16);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#1d1d1f}
+  .live-info-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#eef6ff,#e8edf7);font-size:19px;flex:0 0 auto}
+  .live-info-main{min-width:0;flex:1}
+  .live-clock{font-size:18px;line-height:1.05;font-weight:800;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+  .live-date{margin-top:3px;font-size:11px;color:#74747b;white-space:nowrap}
+  .live-weather{display:flex;align-items:center;gap:6px;padding-left:10px;border-left:1px solid rgba(0,0,0,.08);white-space:nowrap}
+  .weather-symbol{font-size:23px;line-height:1}
+  .weather-temp{font-size:16px;font-weight:800}
+  .weather-meta{font-size:10px;color:#777981;margin-top:2px}
+  .live-info.loading .weather-symbol{animation:weatherPulse 1.2s ease-in-out infinite alternate}
+  @keyframes weatherPulse{from{opacity:.45;transform:scale(.92)}to{opacity:1;transform:scale(1.04)}}
+  @media (max-width:700px){.live-info{right:12px;bottom:12px;min-width:0;width:calc(100vw - 24px);padding:9px 11px;border-radius:15px}.live-clock{font-size:16px}.live-date{font-size:10px}.weather-temp{font-size:15px}}
   .wrap{
     max-width:1120px;
     margin:0 auto;
@@ -732,6 +746,21 @@
 
   <div id="appView" style="display:none;">
 
+  <div class="live-info loading" id="liveInfo" aria-label="เวลาและสภาพอากาศ">
+    <div class="live-info-icon" id="weatherSymbol">🌤️</div>
+    <div class="live-info-main">
+      <div class="live-clock" id="liveClock">--:--:--</div>
+      <div class="live-date" id="liveDate">กำลังโหลดวันที่...</div>
+    </div>
+    <div class="live-weather">
+      <div>
+        <div class="weather-temp" id="weatherTemp">--°C</div>
+        <div class="weather-meta" id="weatherPlace">วารินชำราบ</div>
+      </div>
+    </div>
+  </div>
+
+
   <div class="auth-top">
     <div class="user-menu">
       <button class="user-menu-btn" id="userMenuBtn">👤 <span id="topUsername">Admin</span> <span>⌄</span></button>
@@ -906,6 +935,30 @@
   </div>
 
   </div><!-- /#appView -->
+
+
+<script>
+(() => {
+  const clockEl=document.getElementById('liveClock'), dateEl=document.getElementById('liveDate');
+  const infoEl=document.getElementById('liveInfo'), tempEl=document.getElementById('weatherTemp');
+  const placeEl=document.getElementById('weatherPlace'), symbolEl=document.getElementById('weatherSymbol');
+  const weatherMap={0:['☀️','ท้องฟ้าแจ่มใส'],1:['🌤️','แจ่มใสเล็กน้อย'],2:['⛅','มีเมฆบางส่วน'],3:['☁️','มีเมฆมาก'],45:['🌫️','หมอก'],48:['🌫️','หมอก'],51:['🌦️','ฝนปรอย'],53:['🌦️','ฝนปรอย'],55:['🌧️','ฝนปรอย'],61:['🌦️','ฝนเล็กน้อย'],63:['🌧️','ฝนปานกลาง'],65:['🌧️','ฝนตกหนัก'],71:['🌨️','หิมะ'],73:['🌨️','หิมะ'],75:['❄️','หิมะหนัก'],80:['🌦️','ฝนซู่'],81:['🌧️','ฝนซู่'],82:['⛈️','ฝนซู่หนัก'],95:['⛈️','พายุฝนฟ้าคะนอง'],96:['⛈️','พายุฝน'],99:['⛈️','พายุฝน']};
+  function updateClock(){
+    const now=new Date();
+    clockEl.textContent=new Intl.DateTimeFormat('th-TH',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);
+    dateEl.textContent=new Intl.DateTimeFormat('th-TH',{timeZone:'Asia/Bangkok',weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(now);
+  }
+  async function loadWeather(){
+    try{
+      const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=15.193&longitude=104.862&current=temperature_2m,weather_code&timezone=Asia%2FBangkok',{cache:'no-store'});
+      if(!r.ok) throw new Error();
+      const d=await r.json(), t=Math.round(Number(d?.current?.temperature_2m)), c=Number(d?.current?.weather_code), w=weatherMap[c]||['🌤️','สภาพอากาศ'];
+      tempEl.textContent=Number.isFinite(t)?`${t}°C`:'--°C'; symbolEl.textContent=w[0]; placeEl.textContent=`วารินชำราบ • ${w[1]}`; infoEl.classList.remove('loading');
+    }catch(e){tempEl.textContent='--°C';symbolEl.textContent='🌤️';placeEl.textContent='วารินชำราบ • เชื่อมต่อไม่ได้';infoEl.classList.remove('loading');}
+  }
+  updateClock(); setInterval(updateClock,1000); loadWeather(); setInterval(loadWeather,600000);
+})();
+</script>
 
 <script>
   let items = [];
