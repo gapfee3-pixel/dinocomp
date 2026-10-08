@@ -731,8 +731,9 @@
     <nav class="menu-nav">
       <button class="menu-item" id="homeBtn">⌂ <span>หน้าแรก / Home</span></button>
       <button class="menu-item" id="backBtn">← <span>ย้อนกลับ</span></button>
-      <button class="menu-item" id="manageEmailsBtn" style="display:none;">👥 <span>จัดการผู้ใช้งาน</span></button>
+      <button class="menu-item" id="manageEmailsBtn" style="display:none;">📧 <span>จัดการอีเมล / ผู้ใช้งาน</span></button>
       <button class="menu-item" id="manageProgramsBtn" style="display:none;">📦 <span>จัดการโปรแกรม</span></button>
+      <button class="menu-item" id="printerTestBtn">🖨️ <span>ใบทดสอบเครื่องพิมพ์ A4</span></button>
       <div class="menu-divider"></div>
       <button class="menu-item danger" id="logoutBtn">↪ <span>ออกจากระบบ</span></button>
     </nav>
@@ -1025,6 +1026,7 @@
     document.getElementById('toggleFormBtn').style.display = isAdmin() ? 'inline-block' : 'none';
     document.getElementById('manageEmailsBtn').style.display = isAdmin() ? 'inline-block' : 'none';
     document.getElementById('manageProgramsBtn').style.display = isAdmin() ? 'inline-block' : 'none';
+    document.getElementById('printerTestBtn').style.display = 'inline-flex';
     loadItems();
   }
 
@@ -1629,6 +1631,10 @@
   document.getElementById('manageProgramsBtn').addEventListener('click', () => {
     setMenuOpen(false);
     openForm();
+  });
+  document.getElementById('printerTestBtn').addEventListener('click', () => {
+    setMenuOpen(false);
+    window.location.href = '/printer-test.html';
   });
   categoryFilter.addEventListener('change', render);
   favoritesFilter.addEventListener('click', () => { favoritesFilter.classList.toggle('active'); render(); });
