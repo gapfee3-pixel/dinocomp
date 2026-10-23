@@ -723,6 +723,51 @@
   .account-pill.ready{background:rgba(52,168,83,.14);color:#1E7E34}
   .role-select{width:100%}
   .email-actions .btn{white-space:nowrap}
+
+  /* ===== User-selectable light / dark theme ===== */
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#111318;
+    --surface:#1b1e25;
+    --surface-2:#232731;
+    --text:#f2f3f5;
+    --text-secondary:#c0c4cc;
+    --text-muted:#969daa;
+    --accent:#5aa7ff;
+    --accent-hover:#80bbff;
+    --line:rgba(255,255,255,.12);
+    --danger:#ff7567;
+    --shadow-sm:0 1px 3px rgba(0,0,0,.28);
+    --shadow-md:0 4px 16px rgba(0,0,0,.32);
+    --shadow-lg:0 12px 40px rgba(0,0,0,.42);
+  }
+  :root[data-theme="dark"] body{background:var(--bg);color:var(--text)}
+  :root[data-theme="dark"] .toolbar{background:rgba(17,19,24,.88)}
+  :root[data-theme="dark"] .search-box input{background:rgba(255,255,255,.09)}
+  :root[data-theme="dark"] .search-box input:focus{background:rgba(255,255,255,.14)}
+  :root[data-theme="dark"] .user-menu-btn,
+  :root[data-theme="dark"] .menu-toggle{background:rgba(30,33,41,.92);border-color:var(--line);color:var(--text)}
+  :root[data-theme="dark"] .side-menu{background:rgba(25,28,35,.97)}
+  :root[data-theme="dark"] .menu-user{background:var(--surface-2)}
+  :root[data-theme="dark"] .menu-item:hover,
+  :root[data-theme="dark"] .user-menu-dropdown button:hover{background:rgba(255,255,255,.08)}
+  :root[data-theme="dark"] .user-menu-dropdown{background:var(--surface);border-color:var(--line)}
+  :root[data-theme="dark"] .login-screen{background:linear-gradient(180deg,#202b3c 0%,#292337 50%,var(--bg) 100%)}
+  :root[data-theme="dark"] .live-info{background:rgba(27,30,37,.92);border-color:rgba(255,255,255,.14);color:var(--text)}
+  :root[data-theme="dark"] .live-info-icon{background:linear-gradient(135deg,#293548,#303342)}
+  :root[data-theme="dark"] .live-date,
+  :root[data-theme="dark"] .weather-meta{color:var(--text-muted)}
+  :root[data-theme="dark"] .live-weather{border-left-color:var(--line)}
+  :root[data-theme="dark"] .card-media{background:linear-gradient(135deg,#292d36,#20232b)}
+  :root[data-theme="dark"] .card-media .placeholder{color:#707784}
+  :root[data-theme="dark"] .date-pill{background:rgba(255,255,255,.08)}
+  :root[data-theme="dark"] .btn.secondary{background:rgba(255,255,255,.1);color:var(--text)}
+  :root[data-theme="dark"] .btn.secondary:hover{background:rgba(255,255,255,.16)}
+  :root[data-theme="dark"] .filter-chip.active{background:rgba(90,167,255,.16);border-color:rgba(90,167,255,.32)}
+  .theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 15px;border:1px solid var(--line);border-radius:980px;background:var(--surface);color:var(--text);font:600 14px inherit;cursor:pointer;white-space:nowrap;box-shadow:var(--shadow-sm);transition:transform .12s ease,background .2s ease}
+  .theme-toggle:hover{transform:translateY(-1px)}
+  .theme-toggle:focus-visible{outline:3px solid rgba(0,102,204,.35);outline-offset:2px}
+
 </style>
 </head>
 <body>
@@ -844,6 +889,7 @@
       <select class="filter-select" id="categoryFilter" aria-label="กรองหมวดหมู่"><option value="all">ทั้งหมด</option></select>
       <button class="filter-chip" id="favoritesFilter">⭐ รายการโปรด</button>
       <button class="filter-chip" id="recentFilter">🕐 เพิ่มล่าสุด 7 วัน</button>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="สลับธีมขาวดำ">🌙 ธีมมืด</button>
       <div class="toolbar-actions">
         <span class="count-label" id="countLabel">กำลังโหลด…</span>
         <button class="btn" id="toggleFormBtn">เพิ่มรายการ</button>
@@ -1721,5 +1767,33 @@
   updateStylePreview();
   checkAuth();
 </script>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  if (!toggle) return;
+
+  function applyTheme(theme) {
+    const dark = theme === 'dark';
+    if (dark) root.setAttribute('data-theme', 'dark');
+    else root.removeAttribute('data-theme');
+    toggle.textContent = dark ? '☀️ ธีมสว่าง' : '🌙 ธีมมืด';
+    toggle.setAttribute('aria-pressed', String(dark));
+    toggle.setAttribute('aria-label', dark ? 'เปลี่ยนเป็นธีมสว่าง' : 'เปลี่ยนเป็นธีมมืด');
+  }
+
+  let savedTheme = 'light';
+  try { savedTheme = localStorage.getItem('dinocompTheme') || 'light'; } catch (e) {}
+  applyTheme(savedTheme);
+
+  toggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem('dinocompTheme', next); } catch (e) {}
+  });
+})();
+</script>
+
 </body>
 </html>
